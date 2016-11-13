@@ -40,6 +40,7 @@ public class DatabaseTest {
         Eleve bob = db.addEleve("Sponge", "Bob", Date.valueOf("1999-05-01"), 0);
 
         Competence lecture = db.addCompetence("Lecture");
+        // Ajout de sous-compétences
         lecture.addCompetence("Extraire les informations d'un texte court");
         lecture.addCompetence("Savoir lire à voie haute");
 
