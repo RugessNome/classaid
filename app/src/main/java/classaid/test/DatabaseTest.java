@@ -35,6 +35,7 @@ public class DatabaseTest {
     {
         db = Database.getDatabase(context, 2016, false);
 
+        // Ajout des eleves
         Eleve john = db.addEleve("Doe", "John", Date.valueOf("2001-09-11"), 0);
         Eleve alice = db.addEleve("David", "Alice", Date.valueOf("2000-01-06"), 1);
         Eleve bob = db.addEleve("Sponge", "Bob", Date.valueOf("1999-05-01"), 0);
