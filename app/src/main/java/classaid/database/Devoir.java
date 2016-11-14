@@ -114,7 +114,7 @@ public class Devoir extends DatabaseEntity {
             values.put("Note_commentaire", commentaire);
         }
 
-        int rowsAffected = this.getDatabase().update("Note", values, "Note_id = " + this.id(), null);
+        int rowsAffected = this.getDatabase().update("Note", values, "Eleve_id = " + e.id() + " AND Devoir_id = " + this.id(), null);
         return this.getDatabase().getNote(e, this);
     }
 

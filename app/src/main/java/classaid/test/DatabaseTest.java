@@ -9,6 +9,7 @@ import android.widget.TextView;
  */
 
 import java.sql.Date;
+import java.util.List;
 
 import classaid.Database;
 import classaid.database.*;
@@ -59,6 +60,9 @@ public class DatabaseTest {
 
         math.setAppreciation(bob, "Très carré, bravo Bob");
 
+        List<Eleve> eleves = db.getEleves();
+        print("Nombre d'eleves dans la base : " + eleves.size());
+
         dumpDatabase();
 
     }
@@ -73,6 +77,12 @@ public class DatabaseTest {
     {
         if(c.isNull(column)) return "null";
         return "" + c.getInt(column);
+    }
+
+    private String getFloat(Cursor c, int column)
+    {
+        if(c.isNull(column)) return "null";
+        return "" + c.getFloat(column);
     }
 
     private void dumpDatabase()
@@ -119,7 +129,7 @@ public class DatabaseTest {
             str += c.getInt(0) + ",";
             str += getDate(c, 1) + ", ";
             str += c.getInt(2) + ", ";
-            str += c.getInt(3) + ", ";
+            str += c.getInt(3);
             print(str);
         }
 
@@ -131,7 +141,7 @@ public class DatabaseTest {
             str += c.getInt(0) + ",";
             str += c.getInt(1) + ", ";
             str += c.getString(2) + ", ";
-            str += c.getFloat(3) + ", ";
+            str += getFloat(c, 3) + ", ";
             str += getInt(c, 4) + ", ";
             str += getInt(c, 5);
             print(str);

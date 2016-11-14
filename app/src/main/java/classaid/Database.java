@@ -91,7 +91,7 @@ public class Database {
             list.add(new Eleve(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Eleve(this, c));
         }
@@ -188,7 +188,7 @@ public class Database {
             list.add(new DonneeSupplementaire(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new DonneeSupplementaire(this, c));
         }
@@ -224,7 +224,7 @@ public class Database {
             list.add(new Competence(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Competence(this, c));
         }
@@ -250,7 +250,7 @@ public class Database {
             list.add(new Competence(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Competence(this, c));
         }
@@ -394,7 +394,7 @@ public class Database {
             list.add(new Note(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Note(this, c));
         }
@@ -421,7 +421,7 @@ public class Database {
             list.add(new Note(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Note(this, c));
         }
@@ -449,7 +449,7 @@ public class Database {
             list.add(new Note(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Note(this, c));
         }
@@ -479,7 +479,7 @@ public class Database {
             list.add(new Note(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Note(this, c));
         }
@@ -577,7 +577,7 @@ public class Database {
             list.add(new Competence(this, c));
         }
 
-        while(!c.moveToNext())
+        while(c.moveToNext())
         {
             list.add(new Competence(this, c));
         }
