@@ -13,7 +13,7 @@ import classaid.Database;
 public class DonneeSupplementaire extends DatabaseEntity {
 
     public static String TableName = "DonneeSupplementaire";
-    public static String SelectClause = " DonneeSupplementaire_id, DonneeSupplementaire_nom, DonneeSupplementaire_valeur, Eleve_id ";
+    public static String SelectClause = " DonneeSupplementaire_id, DonneeSupplementaire_nom, DonneeSupplementaire_valeur, DonneeSupplementaire.Eleve_id ";
 
     private String nom;
     private String valeur;

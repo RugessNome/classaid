@@ -12,7 +12,7 @@ import classaid.Database;
 public class Appreciation extends DatabaseEntity {
 
     public static String TableName = "Appreciation";
-    public static String SelectClause = " Appreciation_id, Appreciation_commentaire, Competence_id, Eleve_id ";
+    public static String SelectClause = " Appreciation_id, Appreciation_commentaire, Appreciation.Competence_id, Appreciation.Eleve_id ";
 
     private int eleve;
     private int competence;

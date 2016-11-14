@@ -18,7 +18,7 @@ public class Devoir extends DatabaseEntity {
     String commentaire;
 
     public static String TableName = "Devoir";
-    public static String SelectClause = " Devoir_id, Devoir_date, Devoir_commentaire, TypeNotation_id ";
+    public static String SelectClause = " Devoir_id, Devoir_date, Devoir_commentaire, Devoir.TypeNotation_id ";
 
     public Devoir(Database d, Cursor c)
     {

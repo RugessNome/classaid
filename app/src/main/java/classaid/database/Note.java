@@ -19,7 +19,7 @@ public class Note extends DatabaseEntity {
 
 
     public static String TableName = "Note";
-    public static String SelectClause = " Note_id, Note_absent, Note_valeur, Note_commentaire, Eleve_id, Note.Devoir_id, Devoir.TypeNotation_id ";
+    public static String SelectClause = " Note_id, Note_absent, Note_valeur, Note_commentaire, Note.Eleve_id, Note.Devoir_id, Devoir.TypeNotation_id ";
 
     public Note(Database d, Cursor c)
     {

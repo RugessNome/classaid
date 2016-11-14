@@ -60,9 +60,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         ContentValues trimestre1 = new ContentValues();
         trimestre1.put("Trimestre_id", 1);
         ContentValues trimestre2 = new ContentValues();
-        trimestre1.put("Trimestre_id", 2);
+        trimestre2.put("Trimestre_id", 2);
         ContentValues trimestre3 = new ContentValues();
-        trimestre1.put("Trimestre_id", 3);
+        trimestre3.put("Trimestre_id", 3);
         db.insert("Trimestre", null, trimestre1);
         db.insert("Trimestre", null, trimestre2);
         db.insert("Trimestre", null, trimestre3);

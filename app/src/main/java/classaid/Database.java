@@ -299,7 +299,7 @@ public class Database {
     public Devoir getDevoir(int id)
     {
         Cursor c = this.rawQuery("SELECT " + Devoir.SelectClause +
-                " FROM Devoir JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
+                " FROM Devoir " +
                 " WHERE Devoir_id = " + id, null);
 
         if(!c.moveToFirst())
@@ -344,7 +344,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " WHERE Note_id = " + id, null);
 
@@ -363,7 +362,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " WHERE Note.Eleve_id = " + e.id() + " AND Note.Devoir_id = " + d.id(), null);
 
@@ -382,7 +380,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " WHERE Note.Devoir_id = " + d.id(), null);
 
@@ -410,7 +407,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " WHERE Note.Eleve_id = " + e.id(), null);
 
@@ -438,7 +434,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
                 " WHERE Note.Eleve_id = " + e.id() + " AND Trimestre_id = " + trimestre, null);
@@ -467,7 +462,6 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN Competence ON Competence.Competence_id = Devoir.Competence_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
@@ -519,7 +513,6 @@ public class Database {
 
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
-                " JOIN Eleve ON Note.Eleve_id = Eleve.Eleve_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id ", null);
         if(!c.moveToLast())
         {
@@ -597,9 +590,7 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Appreciation.SelectClause +
                 " FROM Appreciation " +
-                " JOIN ContenuTrimestre ON Competence.Competence_id = ContenuTimestre_Competence_id" +
-                " JOIN Eleve ON Appreciation.Eleve_id = Eleve.Eleve_id " +
-                " WHERE Eleve.Eleve_id = " + e.id() + " AND Competence.Competence_id = " + comp.id(), null);
+                " WHERE Appreciation.Eleve_id = " + e.id() + " AND Appreciation.Competence_id = " + comp.id(), null);
 
         if(!c.moveToFirst())
         {
@@ -623,9 +614,7 @@ public class Database {
 
         // get last inserted tuple
         Cursor c = this.rawQuery("SELECT " + Appreciation.SelectClause +
-                " FROM Appreciation " +
-                " JOIN ContenuTrimestre ON Competence.Competence_id = ContenuTimestre_Competence_id " +
-                " JOIN Eleve ON Appreciation.Eleve_id = Eleve.Eleve_id ", null);
+                " FROM Appreciation ", null);
         if(!c.moveToLast())
         {
             c.close();
