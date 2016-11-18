@@ -1,7 +1,8 @@
 package classaid.database;
 
 /**
- * Created by Vincent on 13/11/2016.
+ * Classe contenant les ids des différents types de notations.
+ * @author Created by Vincent on 13/11/2016.
  */
 
 public class TypeNotation extends DatabaseEntity {

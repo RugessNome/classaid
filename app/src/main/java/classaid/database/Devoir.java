@@ -11,15 +11,39 @@ import android.database.Cursor;
 
 import classaid.Database;
 
+/**
+ * Réprésente un devoir.
+ * @author Vincent
+ */
 
 public class Devoir extends DatabaseEntity {
+    /**
+     * Le type de notation du devoir
+     */
     int typeNotation;
+    /**
+     * La date du devoir
+     */
     Date date;
+    /**
+     * La valeur du commentaire général associé au devoir.
+     */
     String commentaire;
 
+    /**
+     * Le nom de la table associée à l'entité.
+     */
     public static String TableName = "Devoir";
+    /**
+     * La valeur de la clause SELECT permettant de créer une entité de ce type.
+     */
     public static String SelectClause = " Devoir_id, Devoir_date, Devoir_commentaire, Devoir.TypeNotation_id ";
 
+    /**
+     * Construit une entité de type Devoir à partir d'un tuple de la base.
+     * @param d La base de données
+     * @param c le tuple
+     */
     public Devoir(Database d, Cursor c)
     {
         super(d, c);
@@ -29,11 +53,20 @@ public class Devoir extends DatabaseEntity {
         commentaire = c.getString(2);
     }
 
+    /**
+     * Renvoie le type de notation du devoir.
+     * @return
+     */
     public int getTypeNotation()
     {
         return typeNotation;
     }
 
+    /**
+     * Modifie le type de notation du devoir.
+     * @param t le type de notation
+     * @return true si la modification a réussi, false sinon.
+     */
     public boolean setTypeNotation(int t)
     {
         if(typeNotation == t) return true;
@@ -50,11 +83,20 @@ public class Devoir extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie la date du devoir.
+     * @return
+     */
     public Date getDate()
     {
         return this.date;
     }
 
+    /**
+     * Modifie la date du devoir
+     * @param d la nouvelle date
+     * @return true en cas de succès, false sinon.
+     */
     public boolean setDate(Date d)
     {
         if(d.equals(this.date)) { return true; }
@@ -71,11 +113,20 @@ public class Devoir extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie le commentaire associé au devoir.
+     * @return
+     */
     public String getCommentaire()
     {
         return this.commentaire;
     }
 
+    /**
+     * Modifie le commentaire associé au devoir.
+     * @param c
+     * @return true en cas de succès, false sinon
+     */
     public boolean setCommentaire(String c)
     {
         if(c.equals(this.commentaire)) { return true; }
@@ -92,11 +143,22 @@ public class Devoir extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie l'entité Trimestre associé au devoir.
+     * @return
+     */
     public Trimestre getTrimestre()
     {
         return this.getDatabase().getTrimestre(this.date);
     }
 
+    /**
+     * Modifie la note d'un élève pour ce devoir
+     * @param e l'élève
+     * @param n la valeur de la note
+     * @param commentaire le commentaire associé à la note
+     * @return la Note en cas de succès, null en cas d'échec
+     */
     public Note setNote(Eleve e, float n, String commentaire)
     {
         Note note = this.getDatabase().getNote(e, this);
@@ -118,6 +180,11 @@ public class Devoir extends DatabaseEntity {
         return this.getDatabase().getNote(e, this);
     }
 
+    /**
+     * Déclare un élève absent pour ce devoir et modifie l'entité Note associée en conséquence.
+     * @param e
+     * @return la Note associé en cas de succès, null sinon
+     */
     public Note setAbsent(Eleve e)
     {
         Note note = this.getDatabase().getNote(e, this);

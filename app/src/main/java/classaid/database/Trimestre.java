@@ -9,7 +9,8 @@ import java.util.List;
 import classaid.Database;
 
 /**
- * Created by Vincent on 13/11/2016.
+ * Représente un Trimestre
+ * @author  Vincent on 13/11/2016.
  */
 
 public class Trimestre extends DatabaseEntity {
@@ -28,11 +29,16 @@ public class Trimestre extends DatabaseEntity {
         this.dateFin = new Date(c.getLong(2));
     }
 
-public Date getDateDebut()
+    public Date getDateDebut()
     {
         return this.dateDebut;
     }
 
+    /**
+     * Modifie la date de début du trimestre
+     * @param d
+     * @return true en cas de succès, false sinon
+     */
     public boolean setDateDebut(Date d)
     {
         if(d.equals(this.dateDebut)) { return true; }
@@ -54,6 +60,11 @@ public Date getDateDebut()
         return this.dateFin;
     }
 
+    /**
+     * Modifie la date de fin du trimestre
+     * @param d
+     * @return true en cas de succès, false sinon
+     */
     public boolean setDateFin(Date d)
     {
         if(d.equals(this.dateFin)) { return true; }
@@ -71,6 +82,10 @@ public Date getDateDebut()
     }
 
 
+    /**
+     * Renvoie true si le trimestre est le trimestre courant, false sinon.
+     * @return
+     */
     public boolean isActive()
     {
         java.util.Date now = new java.util.Date();
@@ -79,6 +94,10 @@ public Date getDateDebut()
     }
 
 
+    /**
+     * Renvoie la liste des compétences du trimestre.
+     * @return
+     */
     public List<Competence> getContenus()
     {
         return this.getDatabase().getContenusTrimestre(this);

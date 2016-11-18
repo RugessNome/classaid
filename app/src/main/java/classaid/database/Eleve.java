@@ -12,17 +12,41 @@ import android.database.Cursor;
 
 import classaid.Database;
 
+/**
+ * Représente un élève.
+ * @author Vincent
+ */
 public class Eleve extends DatabaseEntity {
 
+    /**
+     * L'id de la personne
+     */
     private int personneId;
+    /**
+     * Le nom
+     */
     private String nom;
+    /**
+     * Le prenom
+     */
     private String prenom;
+    /**
+     * la date de naissance
+     */
     private Date dateNaissance;
+    /**
+     * 0 pour masculin, 1 pour féminin
+     */
     private int sexe;
     private List<DonneeSupplementaire> donneesSupplementaires;
 
     public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe ";
 
+    /**
+     * Construit une entité Eleve à partir d'un tuple d'une base de données
+     * @param d la base
+     * @param c le tuple
+     */
     public Eleve(Database d, Cursor c)
     {
         super(d, c);
@@ -36,11 +60,20 @@ public class Eleve extends DatabaseEntity {
 
     }
 
+    /**
+     * Renvoie le nom de l'élève
+     * @return
+     */
     public String getNom()
     {
         return this.nom;
     }
 
+    /**
+     * Modifie le nom de l'élève
+     * @param n
+     * @return true en cas de succès, false sinon
+     */
     public boolean setNom(String n)
     {
         if(nom.equals(n)) { return true; }
@@ -57,11 +90,20 @@ public class Eleve extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie le prénom de l'élève
+     * @return
+     */
     public String getPrenom()
     {
         return this.prenom;
     }
 
+    /**
+     * Modifie le prénom de l'élève
+     * @param p
+     * @return true en cas de succès, false sinon
+     */
     public boolean setPrenom(String p)
     {
         if(prenom.equals(p)) { return true; }
@@ -78,6 +120,10 @@ public class Eleve extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie le sexe de l'élève
+     * @return 0 pour masculin, 1 pour feminin
+     */
     public int getSexe()
     {
         return this.sexe;
@@ -99,11 +145,20 @@ public class Eleve extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie la date de naissance de l'élève
+     * @return
+     */
     public Date getDateNaissance()
     {
         return this.dateNaissance;
     }
 
+    /**
+     * Modifie la date de naissance de l'élève
+     * @param d
+     * @return true en cas de succès, false sinon
+     */
     public boolean setDateNaissance(Date d)
     {
         if(d.equals(this.dateNaissance)) { return true; }
@@ -120,6 +175,10 @@ public class Eleve extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie l'age de l'élève
+     * @return
+     */
     public int getAge()
     {
         if(dateNaissance == null) { return -1; }
@@ -128,11 +187,19 @@ public class Eleve extends DatabaseEntity {
         return (int) ((now.getTime() - dateNaissance.getTime()) / 3.15576e+10);
     }
 
+    /**
+     * Renvoie la liste des notes de l'élève
+     * @return
+     */
     public List<Note> getNotes()
     {
         return this.getDatabase().getNotes(this);
     }
 
+    /**
+     * Renvoie la liste des données supplémentaires associées à l'élève
+     * @return
+     */
     public List<DonneeSupplementaire> getDonneesSupplementaires()
     {
         if(donneesSupplementaires != null)
@@ -144,6 +211,12 @@ public class Eleve extends DatabaseEntity {
         return this.donneesSupplementaires;
     }
 
+    /**
+     * Ajoute une donnée supplémentaire à cet élève.
+     * @param nom
+     * @param valeur
+     * @return
+     */
     public DonneeSupplementaire addDonneeSupplementaire(String nom, String valeur)
     {
         DonneeSupplementaire ret = this.getDatabase().addDonneeSupplementaire(this, nom, valeur);
@@ -151,6 +224,11 @@ public class Eleve extends DatabaseEntity {
         return ret;
     }
 
+    /**
+     * Récupere l'appréciation de l'élève pour une compétence donnée
+     * @param c la compétence
+     * @return l'appréciation en cas de succès, null sinon
+     */
     public Appreciation getAppreciation(Competence c)
     {
         return this.getDatabase().getAppreciation(this, c);

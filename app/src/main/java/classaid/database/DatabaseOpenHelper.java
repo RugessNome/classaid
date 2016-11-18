@@ -6,10 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 
 /**
- * Created by Vincent on 12/11/2016.
+ * Helper permettant d'ouvrir une base de données.
+ * @author by Vincent on 12/11/2016.
  */
-
-
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
@@ -20,6 +19,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         super(con, dbName, null, database_version);
     }
 
+    /**
+     * Exécute les requêtes SQL permettant de créer les tables de la base.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -139,6 +142,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 ");");
     }
 
+    /**
+     * Méthode permettant de mettre à jour la base de données. Ne fait rien.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         return;

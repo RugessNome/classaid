@@ -9,18 +9,45 @@ import android.database.Cursor;
 
 import classaid.Database;
 
+/**
+ * Représente une Note
+ * @author Vincent
+ */
 public class Note extends DatabaseEntity {
+    /**
+     * L'élève
+     */
     private int eleve;
+    /**
+     * Le devoir
+     */
     private int devoir;
+    /**
+     * Le type de notation
+     */
     private int typeNotation;
+    /**
+     * L'élève était-il absent ?
+     */
     private boolean absent;
+    /**
+     * Valeur de la note
+     */
     private float valeur;
+    /**
+     * Commentaire du correcteur
+     */
     private String commentaire;
 
 
     public static String TableName = "Note";
     public static String SelectClause = " Note_id, Note_absent, Note_valeur, Note_commentaire, Note.Eleve_id, Note.Devoir_id, Devoir.TypeNotation_id ";
 
+    /**
+     * Construit une entité Note à partir d'un tuple d'une base de données
+     * @param d la base
+     * @param c le tuple
+     */
     public Note(Database d, Cursor c)
     {
         super(d, c);
@@ -32,26 +59,49 @@ public class Note extends DatabaseEntity {
         commentaire = c.getString(3);
     }
 
+    /**
+     * Récupère la note d'un élève à un devoir.
+     * @param e l'élève
+     * @param d le devoir
+     * @return null en cas d'échec
+     */
     public static Note getNote(Eleve e, Devoir d)
     {
         return e.getDatabase().getNote(e, d);
     }
 
+    /**
+     * Renvoie l'élève
+     * @return
+     */
     public Eleve getEleve()
     {
         return this.getDatabase().getEleve(this.eleve);
     }
 
+    /**
+     * Renvoie le devoir auquel s'applique la note
+     * @return
+     */
     public Devoir getDevoir()
     {
         return this.getDatabase().getDevoir(this.devoir);
     }
 
+    /**
+     * Renvoie true si l'élève était absent pour le devoir
+     * @return
+     */
     public boolean getAbsent()
     {
         return this.absent;
     }
 
+    /**
+     * Modifie la valeur de l'attribut absence de l'entité.
+     * @param a
+     * @return true en cas de succès, false en cas d'échec
+     */
     public boolean setAbsent(boolean a)
     {
         if(this.absent == a) { return true; }
@@ -68,11 +118,23 @@ public class Note extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie la valeur de la note.
+     * <p>
+     * Si l'élève était absent pour le devoir, la valeur renvoyé par cette fonction n'est pas
+     * définie.
+     * @return
+     */
     public float getValeur()
     {
         return this.valeur;
     }
 
+    /**
+     * Change la valeur de la note.
+     * @param v
+     * @return true en cas de succès, false sinon
+     */
     public boolean setValeur(float v)
     {
         if(this.valeur == v) { return true; }
@@ -107,11 +169,20 @@ public class Note extends DatabaseEntity {
         return -1;
     }
 
+    /**
+     * Renvoie le commentaire associé à la note
+     * @return
+     */
     public String getCommentaire()
     {
         return this.commentaire;
     }
 
+    /**
+     * Modifie le commentaire associé à la note
+     * @param c
+     * @return true en cas de succès, false sinon
+     */
     public boolean setCommentaire(String c)
     {
         if(c.equals(this.commentaire)) { return true; }
@@ -128,26 +199,13 @@ public class Note extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
+    /**
+     * Renvoie le type de notation du devoir.
+     * @return
+     */
     public int getTypeNotation()
     {
         return this.typeNotation;
     }
-
-    public boolean setTypeNotation(int t)
-    {
-        if(t == this.typeNotation) { return true; }
-
-        Database db = this.getDatabase();
-        ContentValues values = new ContentValues();
-        values.put("Note_commentaire", t);
-
-        int rowsAffected = db.update(this.TableName, values, "Note_id = " + this.id(), null);
-        if(rowsAffected > 0)
-        {
-            this.typeNotation = t;
-        }
-        return rowsAffected == 1;
-    }
-
 
 }
