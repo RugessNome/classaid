@@ -40,6 +40,7 @@ public class Eleve extends DatabaseEntity {
     private int sexe;
     private List<DonneeSupplementaire> donneesSupplementaires;
 
+    public static String TableName = "Eleve";
     public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe ";
 
     /**
@@ -58,6 +59,15 @@ public class Eleve extends DatabaseEntity {
         sexe = c.getInt(5);
 
 
+    }
+
+    /**
+     * Renvoie l'id de l'entité Personne associé à l'élève.
+     * @return
+     */
+    public int getPersonneId()
+    {
+        return personneId;
     }
 
     /**

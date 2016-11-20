@@ -1,4 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CLASSAID</string>
-    <string name="action_settings">Settings</string>
+    <string name="trombinoscope">FACE BOOK</string>
+    <string name="calendrier">PUPIL S CALENDAR</string>
+    <string name="devoirs_competences">HOMEWORKS / COMPETENCES</string>
+    <string name="app_name" />
+    <string name="title_activity_eleve_">Eleve_Activity</string>
+    <string-array name="liste_sexes">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
 </resources>

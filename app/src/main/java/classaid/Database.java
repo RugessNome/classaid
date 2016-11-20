@@ -279,6 +279,21 @@ public class Database {
     }
 
     /**
+     * Supprime un élève de la base de données.
+     * <p>
+     * Toutes les données associés à l'élève (notes, appréciation) sont également supprimées.
+     * @param e l'élève
+     * @return true en cas de succès, false sinon
+     */
+    public boolean removeEleve(Eleve e)
+    {
+        this.delete(DonneeSupplementaire.TableName, "Eleve_id = " + e.id(), null);
+        int res = this.delete(Eleve.TableName, "Eleve_id = " + e.id(), null);
+        this.delete("Personne", "Personne_id = " + e.getPersonneId(), null);
+        return res == 1;
+    }
+
+    /**
      * Récupère une donnée supplémentaire à partir de son id.
      * @param id
      * @return null s'il n'existe pas de donnée supplémentaire ayant l'id fournit.
@@ -308,7 +323,7 @@ public class Database {
     public List<DonneeSupplementaire> getDonneesSupplementaires(Eleve e)
     {
         Cursor c = this.rawQuery("SELECT " + DonneeSupplementaire.SelectClause +
-                " FROM DonneeSupplementaire WHERE DonneSupplementaire.Eleve_id = " + e.id(), null);
+                " FROM DonneeSupplementaire WHERE DonneeSupplementaire.Eleve_id = " + e.id(), null);
 
         List<DonneeSupplementaire> list = new ArrayList<DonneeSupplementaire>();
         if(!c.moveToFirst())

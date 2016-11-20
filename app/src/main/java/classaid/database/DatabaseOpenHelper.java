@@ -40,7 +40,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Eleve_id INTEGER PRIMARY KEY,"+
                 "Personne_id INTEGER," +
                 " " +
-                "FOREIGN KEY(Personne_id) REFERENCES Personne(Personne_id)" +
+                "FOREIGN KEY(Personne_id) REFERENCES Personne(Personne_id) ON DELETE CASCADE" +
                 ");");
 
 
@@ -50,7 +50,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "DonneeSupplementaire_valeur TEXT," +
                 "Eleve_id INTEGER," +
                 " " +
-                "FOREIGN KEY(Eleve_id) REFERENCES Eleve(Eleve_id)" +
+                "FOREIGN KEY(Eleve_id) REFERENCES Eleve(Eleve_id)  ON DELETE CASCADE" +
                 ");");
 
 
@@ -77,7 +77,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Competence_nom TEXT," +
                 "Competence_parent INTEGER," +
                 " " +
-                "FOREIGN KEY(Competence_parent) REFERENCES Competence(Competence_id)" +
+                "FOREIGN KEY(Competence_parent) REFERENCES Competence(Competence_id)  ON DELETE CASCADE" +
                 ");");
 
 
@@ -88,7 +88,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Competence_id INTEGER," +
                 " " +
                 "FOREIGN KEY(Eleve_id) REFERENCES Eleve(Eleve_id)," +
-                "FOREIGN KEY(Competence_id) REFERENCES Competence(Competence_id)" +
+                "FOREIGN KEY(Competence_id) REFERENCES Competence(Competence_id)  ON DELETE CASCADE" +
                 ");");
 
 
@@ -116,8 +116,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Devoir_date NUMERIC," +
                 "Devoir_commentaire TEXT," +
                 " " +
-                "FOREIGN KEY(Competence_Id) REFERENCES Competence(Competence_Id)," +
-                "FOREIGN KEY(TypeNotation_Id) REFERENCES TypeNotation(TypeNotation_Id)" +
+                "FOREIGN KEY(Competence_Id) REFERENCES Competence(Competence_Id)  ON DELETE CASCADE," +
+                "FOREIGN KEY(TypeNotation_Id) REFERENCES TypeNotation(TypeNotation_Id)  ON DELETE CASCADE" +
                 ");");
 
         db.execSQL("CREATE TABLE Note(" +
@@ -128,8 +128,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Eleve_id INTEGER," +
                 "Devoir_id INTEGER," +
                 " " +
-                "FOREIGN KEY(Eleve_id) REFERENCES Eleve(Eleve_id)," +
-                "FOREIGN KEY(Devoir_id) REFERENCES Devoir(Devoir_id)" +
+                "FOREIGN KEY(Eleve_id) REFERENCES Eleve(Eleve_id)  ON DELETE CASCADE," +
+                "FOREIGN KEY(Devoir_id) REFERENCES Devoir(Devoir_id)  ON DELETE CASCADE" +
                 ");");
 
         db.execSQL("CREATE TABLE ContenuTrimestre(" +
@@ -137,8 +137,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "Trimestre_id INTEGER," +
                 "Competence_id INTEGER," +
                 " " +
-                "FOREIGN KEY(Trimestre_id) REFERENCES Trimestre(Trimestre_id)," +
-                "FOREIGN KEY(Competence_id) REFERENCES Competence(Competence_id)" +
+                "FOREIGN KEY(Trimestre_id) REFERENCES Trimestre(Trimestre_id) ON DELETE CASCADE," +
+                "FOREIGN KEY(Competence_id) REFERENCES Competence(Competence_id)  ON DELETE CASCADE" +
                 ");");
     }
 
