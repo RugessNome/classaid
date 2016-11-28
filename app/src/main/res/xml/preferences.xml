@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="pref_annee_scolaire"
+        android:title="@string/pref_annee_scolaire_titre"
+        android:summary="@string/pref_annee_scolaire_description"
+		android:numeric="integer"
+        android:defaultValue="2016" />
+</PreferenceScreen>
+

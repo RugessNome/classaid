@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:id="@+id/imageView3"
+        android:src="@drawable/classaid_titre"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageButtonT"
+        android:background="@drawable/trombinoscope"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/imageView3"
+        android:layout_toLeftOf="@+id/imageButtonCE"
+        android:layout_marginRight="50dp" />
+
+    <ImageButton
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageButtonCE"
+        android:background="@drawable/calendrier_de_l_ecolier"
+        android:layout_alignTop="@+id/imageButtonT"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp" />
+
+    <ImageButton
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageButtonDC"
+        android:background="@drawable/devoirs_competences"
+        android:layout_alignTop="@+id/imageButtonCE"
+        android:layout_toRightOf="@+id/imageButtonCE"
+        android:layout_toEndOf="@+id/imageButtonCE"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="50dp" />
+
+</RelativeLayout>

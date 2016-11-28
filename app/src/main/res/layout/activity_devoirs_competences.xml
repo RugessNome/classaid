@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/classaid_logo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:text="@string/devoirs_competences"
+                android:id="@+id/devoirs_competences"
+                android:textColor="#c16ac9"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:gravity="fill_vertical"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listview_devoirs_competences" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="@string/bouton_creer_competence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/bouton_creer_competence"
+                android:layout_weight="1"
+                tools:text="@string/bouton_creer_competence" />
+
+            <Button
+                android:text="@string/bouton_creer_devoir"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/bouton_creer_devoir"
+                tools:text="@string/bouton_creer_devoir"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
