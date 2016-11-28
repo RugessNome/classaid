@@ -5,10 +5,17 @@
     <string name="devoirs_competences">DEVOIRS / COMPETENCES</string>
     <string name="app_name" />
 
+    <string name="bouton_creer_devoir">Nouveau devoir</string>
+    <string name="bouton_creer_competence">Nouvelle compétence</string>
+
     <string name="pref_annee_scolaire_titre">Année scolaire</string>
     <string name="pref_annee_scolaire_description">Une base de donnée est créée pour chaque année</string>
     <string-array name="liste_sexes">
         <item>M</item>
         <item>F</item>
+    </string-array>
+    <string-array name="liste_notations">
+        <item>Note sur 10</item>
+        <item>Note sur 20</item>
     </string-array>
 </resources>

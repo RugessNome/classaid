@@ -208,4 +208,12 @@ public class Note extends DatabaseEntity {
         return this.typeNotation;
     }
 
+    /**
+     * Supprime la note de la base de données.
+     */
+    public void delete()
+    {
+        this.getDatabase().delete(Note.TableName, "Note_id = " + this.id(), null);
+    }
+
 }

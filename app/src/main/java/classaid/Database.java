@@ -537,6 +537,37 @@ public class Database {
     }
 
     /**
+     * Renvoie la liste des devoirs associée à la compétence donnée en paramètre.
+     * @param comp
+     * @return
+     */
+    public List<Devoir> getDevoirs(Competence comp)
+    {
+        Cursor c = this.rawQuery("SELECT " + Devoir.SelectClause +
+                " FROM Devoir " +
+                " WHERE Competence_id = " + comp.id(), null);
+
+        List<Devoir> list = new ArrayList<Devoir>();
+        if(!c.moveToFirst())
+        {
+            c.close();
+            return list;
+        }
+        else
+        {
+            list.add(new Devoir(this, c));
+        }
+
+        while(c.moveToNext())
+        {
+            list.add(new Devoir(this, c));
+        }
+
+        c.close();
+        return list;
+    }
+
+    /**
      * Récupère une note à partir de son id
      * @param id
      * @return null si la note demandée n'existe pas

@@ -29,7 +29,8 @@
         <activity android:name=".Calendrier_Activity" />
         <activity
             android:name=".Eleve_Activity"
-            android:label="@string/title_activity_eleve_"></activity>
+            android:label="@string/title_activity_eleve_" />
+        <activity android:name=".Devoir_Activity"></activity>
     </application>
 
 </manifest>

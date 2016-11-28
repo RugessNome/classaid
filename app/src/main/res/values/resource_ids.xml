@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="id" name="activity_eleve_donnee_supplementaire_resource"/>
+    <item type="id" name="alertdialog_text_input"/>
+    <item type="id" name="alertdialog_text_input_user_data"/>
+    <item type="id" name="tablerowref"/>
+    <item type="id" name="noteref"/>
+    <item type="id" name="eleveref"/>
 </resources>

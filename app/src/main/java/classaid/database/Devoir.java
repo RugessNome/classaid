@@ -1,6 +1,7 @@
 package classaid.database;
 
 import java.sql.Date;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -51,6 +52,7 @@ public class Devoir extends DatabaseEntity {
         typeNotation = c.getInt(3);
         date = new Date(c.getLong(1));
         commentaire = c.getString(2);
+        if(commentaire == null) commentaire = "";
     }
 
     /**
@@ -153,6 +155,15 @@ public class Devoir extends DatabaseEntity {
     }
 
     /**
+     * Renvoie la liste des notes pour ce devoir.
+     * @return
+     */
+    public List<Note> getNotes()
+    {
+        return this.getDatabase().getNotes(this);
+    }
+
+    /**
      * Modifie la note d'un élève pour ce devoir
      * @param e l'élève
      * @param n la valeur de la note
@@ -201,4 +212,105 @@ public class Devoir extends DatabaseEntity {
         int rowsAffected = this.getDatabase().update("Note", values, "Note_id = " + this.id(), null);
         return this.getDatabase().getNote(e, this);
     }
+
+
+    /**
+     * Renvoie la moyenne des notes
+     * @param notes
+     * @return
+     */
+    public static double moyenne(List<Note> notes)
+    {
+        int nbr_notes = 0;
+        double somme = 0.;
+        for(Note n : notes)
+        {
+            if(n.getAbsent()) continue;
+            nbr_notes += 1;
+            somme += n.getValeur();
+        }
+
+        return somme / nbr_notes;
+    }
+
+    /**
+     * Calcul la moyenne du devoir.
+     * @return
+     */
+    public double moyenne()
+    {
+        return Devoir.moyenne(this.getNotes());
+    }
+
+    /**
+     * Renvoie le nombre d'élève noté absent sur l'ensemble des notes
+     * @param notes
+     * @return
+     */
+    public static int nbrAbsent(List<Note> notes)
+    {
+        int nbr_absent = 0;
+        for(Note n : notes)
+        {
+            if(n.getAbsent()) nbr_absent += 1;
+        }
+
+        return nbr_absent;
+    }
+
+    /**
+     * Renvoie le nombre d'élève absent pour ce devoir.
+     * @return
+     */
+    public int nbrAbsent()
+    {
+        return Devoir.nbrAbsent(this.getNotes());
+    }
+
+    /**
+     * Renvoie la liste des élèves n'ayant pas de note pour ce devoir.
+     * <p>
+     * Note: les élèves notés absent sont considérés comme ayant une note.
+     * </p>
+     * @return
+     */
+    public List<Eleve> getElevesNonNotes()
+    {
+        List<Eleve> eleves = this.getDatabase().getEleves();
+        List<Note> notes = this.getNotes();
+        for(int i = 0; i < eleves.size(); i++)
+        {
+            Eleve e = eleves.get(i);
+            for(Note n : notes)
+            {
+                if(n.getEleve().id() == e.id())
+                {
+                    eleves.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+
+        return eleves;
+    }
+
+    /**
+     * Supprime le devoir de la base de données.
+     * <p>
+     * La fonction commence par supprimer toutes les notes associées
+     * au devoir puis supprime le devoir en lui-même.
+     * <p>
+     * A utiliser avec prudence.
+     */
+    public void delete()
+    {
+        List<Note> notes = this.getNotes();
+        for(Note n : notes)
+        {
+            n.delete();
+        }
+        this.getDatabase().delete(Devoir.TableName, "Devoir_id = " + this.id(), null);
+    }
+
 }

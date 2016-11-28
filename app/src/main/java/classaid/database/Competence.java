@@ -125,6 +125,15 @@ public class Competence extends DatabaseEntity {
     }
 
     /**
+     * Renvoie la liste des devoirs associés à cette compétence.
+     * @return
+     */
+    public List<Devoir> getDevoirs()
+    {
+        return this.getDatabase().getDevoirs(this);
+    }
+
+    /**
      * Renvoie le niveau de profondeur de cette compétence (0 pour une compétence, 1 pour une
      * sous-compétence, 2 pour une sous-sous-compétences, etc...).
      * @return
@@ -177,5 +186,31 @@ public class Competence extends DatabaseEntity {
 
         a.setCommentaire(val);
         return a;
+    }
+
+    /**
+     * Supprime la compétence de la base de données.
+     * <p>
+     * La fonction commence par supprimer toutes les sous-compétences et
+     * les devoirs puis supprime la compétence en elle-même.
+     * </p>
+     * <p>
+     * A utiliser avec prudence.
+     * </p>
+     */
+    public void delete()
+    {
+        List<Competence> sc = getSousCompetences();
+        for(Competence c : sc)
+        {
+            c.delete();
+        }
+        List<Devoir> devs = getDevoirs();
+        for(Devoir d : devs)
+        {
+            d.delete();
+        }
+
+        getDatabase().delete(Competence.TableName, "Competence_id = " + this.id(), null);
     }
 }

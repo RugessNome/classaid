@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="48dip"
-        android:layout_height="@android:dimen/app_icon_size"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        android:id="@+id/photo"
-        android:layout_weight="1" />
+        android:id="@+id/item_icon"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/devoir_icon"
+        android:layout_width="64dip"
+        android:layout_height="64dip" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,19 +18,17 @@
         android:layout_weight="1">
 
         <TextView
-            android:text="Prenom Nom"
+            android:text="Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:textColor="@android:color/black" />
+            android:id="@+id/item_title"
+            android:layout_weight="1"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
-            android:text="Naissance - Sexe"
+            android:text="Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/description"
-            android:textAppearance="@android:style/TextAppearance.Material.Small" />
-
+            android:id="@+id/item_description" />
     </LinearLayout>
 </LinearLayout>
