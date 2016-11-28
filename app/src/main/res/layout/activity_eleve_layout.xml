@@ -119,9 +119,14 @@
                     android:id="@+id/label_donnees_personnelles"
                     android:textAlignment="center" />
 
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <Button
                     android:text="+"
-                    android:layout_width="wrap_content"
+                    android:layout_width="16dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/bouton_creer_donnees_personnelles"
                     android:textAlignment="center"
