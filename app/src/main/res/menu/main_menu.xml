@@ -7,5 +7,9 @@
     android:title="Title1"
     android:icon="@android:drawable/ic_menu_my_calendar"
     app:showAsAction ="always"/>
+    <item android:title="Settings"
+        android:id="@+id/action_settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        app:showAsAction="always" />
 
 </menu>

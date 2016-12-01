@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        System.out.println("pref_annee_scolaire : " + Integer.parseInt(pref.getString("pref_annee_scolaire", "-1")));
+
         MainActivity.ClassaidDatabase = Database.getDatabase(this.getApplicationContext(), 2016, false);
 
      }
@@ -70,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
+        MenuItem settings = menu.findItem(R.id.action_settings);
+        settings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
         return true;
     }
 
@@ -77,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        // SharedPreferences pref = getSharedPreferences("preferences", 0);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        System.out.println("pref_annee_scolaire : " + Integer.parseInt(pref.getString("pref_annee_scolaire", "-1")));
+
     }
 }

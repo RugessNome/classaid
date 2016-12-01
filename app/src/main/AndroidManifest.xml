@@ -30,7 +30,10 @@
         <activity
             android:name=".Eleve_Activity"
             android:label="@string/title_activity_eleve_" />
-        <activity android:name=".Devoir_Activity"></activity>
+        <activity android:name=".Devoir_Activity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>
