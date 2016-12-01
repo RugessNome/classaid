@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         MainActivity.ClassaidDatabase = Database.getDatabase(this.getApplicationContext(), 2016, false);
 
+        // test de la base de données calendrier
+        classaid.calendrier.Database.test(this.getApplicationContext());
+
      }
 
     @Override
