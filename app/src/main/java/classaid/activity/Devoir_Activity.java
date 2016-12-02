@@ -216,11 +216,11 @@ public class Devoir_Activity extends Activity {
 
         if(table.getChildCount() % 2 == 1)
         {
-            row.setBackgroundColor(0x92C94A);
+            row.setBackgroundColor(0xFF92C94A);
         }
         else
         {
-            row.setBackgroundColor(0x6F9C33);
+            row.setBackgroundColor(0xFF6F9C33);
         }
 
         table.addView(row);
