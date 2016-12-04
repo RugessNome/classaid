@@ -87,6 +87,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        MenuItem trimestre = menu.findItem(R.id.action_trimestre);
+        trimestre.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(MainActivity.this, TrimestreActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
         return true;
     }
 
