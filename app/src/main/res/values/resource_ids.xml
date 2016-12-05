@@ -6,4 +6,7 @@
     <item type="id" name="tablerowref"/>
     <item type="id" name="noteref"/>
     <item type="id" name="eleveref"/>
+    <item type="id" name="dateref"/>
+    <item type="id" name="trimestre_id"/>
+    <item type="id" name="est_date_debut"/>
 </resources>

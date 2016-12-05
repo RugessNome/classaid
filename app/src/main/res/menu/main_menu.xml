@@ -7,6 +7,10 @@
     android:title="Title1"
     android:icon="@android:drawable/ic_menu_my_calendar"
     app:showAsAction ="always"/>
+    <item android:title="Trimestre"
+        android:id="@+id/action_trimestre"
+        android:icon="@android:drawable/ic_menu_edit"
+        app:showAsAction="always" />
     <item android:title="Settings"
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_manage"

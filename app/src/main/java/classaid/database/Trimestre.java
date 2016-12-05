@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import classaid.Database;
@@ -18,18 +20,24 @@ public class Trimestre extends DatabaseEntity {
     public static String TableName = "Trimestre";
     public static String SelectClause = " Trimestre_id, Trimestre_dateDebut, Trimestre_dateFin ";
 
-    private Date dateDebut;
-    private Date dateFin;
+    private Calendar dateDebut;
+    private Calendar dateFin;
 
     public Trimestre(Database d, Cursor c)
     {
         super(d, c);
 
-        this.dateDebut = new Date(c.getLong(1));
-        this.dateFin = new Date(c.getLong(2));
+        if(!c.isNull(1)) {
+            this.dateDebut = new GregorianCalendar();
+            this.dateDebut.setTimeInMillis(c.getLong(1));
+        }
+        if(!c.isNull(2)) {
+            this.dateFin = new GregorianCalendar();
+            this.dateFin.setTimeInMillis(c.getLong(2));
+        }
     }
 
-    public Date getDateDebut()
+    public Calendar getDateDebut()
     {
         return this.dateDebut;
     }
@@ -39,13 +47,13 @@ public class Trimestre extends DatabaseEntity {
      * @param d
      * @return true en cas de succès, false sinon
      */
-    public boolean setDateDebut(Date d)
+    public boolean setDateDebut(Calendar d)
     {
         if(d.equals(this.dateDebut)) { return true; }
 
         Database db = this.getDatabase();
         ContentValues values = new ContentValues();
-        values.put("Trimestre_dateDebut", d.getTime());
+        values.put("Trimestre_dateDebut", d.getTimeInMillis());
 
         int rowsAffected = db.update(this.TableName, values, "Trimestre_id = " + this.id(), null);
         if(rowsAffected > 0)
@@ -55,7 +63,7 @@ public class Trimestre extends DatabaseEntity {
         return rowsAffected == 1;
     }
 
-    public Date getDateFin()
+    public Calendar getDateFin()
     {
         return this.dateFin;
     }
@@ -65,13 +73,13 @@ public class Trimestre extends DatabaseEntity {
      * @param d
      * @return true en cas de succès, false sinon
      */
-    public boolean setDateFin(Date d)
+    public boolean setDateFin(Calendar d)
     {
         if(d.equals(this.dateFin)) { return true; }
 
         Database db = this.getDatabase();
         ContentValues values = new ContentValues();
-        values.put("Trimestre_dateFin", d.getTime());
+        values.put("Trimestre_dateFin", d.getTimeInMillis());
 
         int rowsAffected = db.update(this.TableName, values, "Trimestre_id = " + this.id(), null);
         if(rowsAffected > 0)
@@ -88,7 +96,7 @@ public class Trimestre extends DatabaseEntity {
      */
     public boolean isActive()
     {
-        java.util.Date now = new java.util.Date();
+        java.util.Calendar now = java.util.Calendar.getInstance();
         if(now.after(this.dateDebut) && now.before(this.dateFin)) { return true; }
         return false;
     }

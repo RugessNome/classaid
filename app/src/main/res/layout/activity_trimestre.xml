@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_trimestre"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="classaid.activity.TrimestreActivity"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:text="Trimestre 1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/trimestre1_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAlignment="center" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Debut ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre1_debut"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Fin ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre1_fin"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <TextView
+        android:text="Trimestre 2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/trimestre2_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAlignment="center" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Debut ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre2_debut"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Fin ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre2_fin"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <TextView
+        android:text="Trimestre 3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/trimestre3_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="Debut ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre3_debut"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Fin ?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trimestre3_fin"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>
