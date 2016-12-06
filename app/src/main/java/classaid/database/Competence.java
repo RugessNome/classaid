@@ -133,6 +133,8 @@ public class Competence extends DatabaseEntity {
         return this.getDatabase().getDevoirs(this);
     }
 
+
+
     /**
      * Renvoie le niveau de profondeur de cette compétence (0 pour une compétence, 1 pour une
      * sous-compétence, 2 pour une sous-sous-compétences, etc...).
@@ -156,6 +158,16 @@ public class Competence extends DatabaseEntity {
     public List<Note> getNotes(Eleve e, int trimestre)
     {
         return this.getDatabase().getNotes(e, this, trimestre);
+    }
+
+    /**
+     * Renvoie la liste des notes pour cette compétence pour un élève données.
+     * @param e l'élève
+     * @return
+     */
+    public List<Note> getNotes(Eleve e)
+    {
+        return this.getDatabase().getNotes(e, this);
     }
 
     /**

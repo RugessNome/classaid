@@ -287,6 +287,8 @@ public class Database {
      */
     public boolean removeEleve(Eleve e)
     {
+        this.delete(Appreciation.TableName, "Eleve_id = " + e.id(), null);
+        this.delete(Note.TableName, "Eleve_id = " + e.id(), null);
         this.delete(DonneeSupplementaire.TableName, "Eleve_id = " + e.id(), null);
         int res = this.delete(Eleve.TableName, "Eleve_id = " + e.id(), null);
         this.delete("Personne", "Personne_id = " + e.getPersonneId(), null);
@@ -727,6 +729,42 @@ public class Database {
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
                 " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
                 " WHERE Note.Eleve_id = " + e.id() + " AND Trimestre_id = " + trimestre +
+                " AND Competence.Competence_id = " + comp.id() , null);
+
+        List<Note> list = new ArrayList<Note>();
+        if(!c.moveToFirst())
+        {
+            c.close();
+            return list;
+        }
+        else
+        {
+            list.add(new Note(this, c));
+        }
+
+        while(c.moveToNext())
+        {
+            list.add(new Note(this, c));
+        }
+
+        c.close();
+        return list;
+    }
+
+    /**
+     * Renvoie les notes d'un élève pour une compétence
+     * @param e l'élève
+     * @param comp la compétence
+     * @return
+     */
+    public List<Note> getNotes(Eleve e, Competence comp)
+    {
+        Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
+                " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
+                " JOIN Competence ON Competence.Competence_id = Devoir.Competence_id " +
+                " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
+                " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
+                " WHERE Note.Eleve_id = " + e.id() +
                 " AND Competence.Competence_id = " + comp.id() , null);
 
         List<Note> list = new ArrayList<Note>();

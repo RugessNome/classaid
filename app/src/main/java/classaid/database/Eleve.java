@@ -1,6 +1,7 @@
 package classaid.database;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -242,6 +243,129 @@ public class Eleve extends DatabaseEntity {
     public Appreciation getAppreciation(Competence c)
     {
         return this.getDatabase().getAppreciation(this, c);
+    }
+
+    /**
+     * Renvoie true si l'eleve a une note pour la competence donné une une des
+     * sous-compétences de n'importe quel niveau de profondeur.
+     * @param c
+     * @param t filtre Trimestre (peut valoir null)
+     * @return
+     */
+    public boolean estNote(Competence c, Trimestre t) {
+        if(t != null) {
+            if(!c.getNotes(this, t.id()).isEmpty()) return true;
+
+        } else {
+            if(!c.getNotes(this).isEmpty()) return true;
+        }
+
+        for(Competence sc : c.getSousCompetences()) {
+            if(estNote(sc, t)) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Renvoie la liste des compétences de profondeur 0 pour lesquelles
+     * l'élève possède au moins une note dans l'une des sous-compétence
+     * de la compétence.
+     * <p>
+     * La fonction procède de la manière suivante : elle commence par récupérer la liste des notes
+     * de l'élève puis pour chacune de ces notes, elle récupère la compétence associée et remonte
+     * jusqu'à une compétence de pronfondeur 0 qu'elle ajoute à la liste de résultat.
+     * </p>
+     * @arg t Filtre les notes par rapport à un trimestre (peut valoir null)
+     * @return
+     */
+    public List<Competence> getCompetencesNotees(Trimestre t)
+    {
+        List<Competence> ret = new ArrayList<Competence>();
+        List<Note> notes = getNotes();
+        for(Note n : notes) {
+            if(t != null && n.getDevoir().getTrimestre().id() != t.id()) {
+                continue;
+            }
+
+            Competence c = n.getDevoir().getCompetence();
+            while(c.depth() > 0)  {
+                c = c.getParent();
+            }
+
+            // on vérifie que la compétence n'est pas deja dans la liste
+            boolean ok = true;
+            for(Competence item : ret) {
+                if(item.id() == c.id()) {
+                    ok = false;
+                    break;
+                }
+            }
+
+            // si ce n'est pas le cas on ajoute la compétence
+            if(ok) {
+                ret.add(c);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Renvoie la liste des sous-compétences d'une compétence pour lequel l'élève
+     * a une note au moins.
+     * @param c
+     * @param t filtre de trimestre (peut valoir null)
+     * @return
+     */
+    public List<Competence> getSousCompetencesNotees(Competence c, Trimestre t) {
+        List<Competence> ret = c.getSousCompetences();
+        for(int i = 0; i < ret.size(); i++)
+        {
+            Competence sc = ret.get(i);
+            if(!estNote(sc, t)) {
+                ret.remove(i);
+                i--;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Calcul le taux de réussite de l'élève pour une compétence donné.
+     * <p>
+     * L'élève doit etre noté sur cette compétence.
+     * </p>
+     * <p>
+     * Le taux de réussite est défini de la manière suivante :
+     * - pour une compétence mère : la moyenne des taux de réussite des sous-compétences
+     * - pour une compétence terminal : la moyenne des notes de l'élève dans les devoirs de la coméptence
+     * </p>
+     * @param c
+     * @param t filtre de trimestre (peut valoir null)
+     * @return
+     */
+    public float calculTauxReussite(Competence c, Trimestre t) {
+        if(!estNote(c, t)) {
+            throw new IllegalArgumentException("Eleve.calculTauxReussite() ne peut travailler que sur une compétence notée");
+        }
+
+        List<Note> notes = t == null ? c.getNotes(this) : c.getNotes(this, t.id());
+        if(notes.isEmpty()) {
+            List<Competence> list = getSousCompetencesNotees(c, t);
+            float total = 0.f;
+            for(Competence sc : list)
+            {
+                total += calculTauxReussite(sc, t);
+            }
+            return total / list.size();
+        }
+
+        float total = 0.f;
+        for(Note n : notes) {
+            total += n.scaledValue();
+        }
+        return total / notes.size();
     }
 
 }

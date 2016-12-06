@@ -132,6 +132,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(Devoir_id) REFERENCES Devoir(Devoir_id)  ON DELETE CASCADE" +
                 ");");
 
+        // table  inutile
+        /*
         db.execSQL("CREATE TABLE ContenuTrimestre(" +
                 "ContenuTrimestre_id INTEGER PRIMARY KEY,"+
                 "Trimestre_id INTEGER," +
@@ -140,6 +142,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(Trimestre_id) REFERENCES Trimestre(Trimestre_id) ON DELETE CASCADE," +
                 "FOREIGN KEY(Competence_id) REFERENCES Competence(Competence_id)  ON DELETE CASCADE" +
                 ");");
+         */
     }
 
     /**

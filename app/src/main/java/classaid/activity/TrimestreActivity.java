@@ -24,6 +24,7 @@ public class TrimestreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trimestre);
+        setTitle("Trimestre");
 
         Trimestre trim1 = MainActivity.ClassaidDatabase.getTrimestre(1);
         setupBouton((Button) findViewById(R.id.trimestre1_debut), 1, true, trim1.getDateDebut());
