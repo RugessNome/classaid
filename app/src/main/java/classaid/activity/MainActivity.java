@@ -18,6 +18,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import classaid.Database;
+import classaid.database.Eleve;
+import classaid.database.Trimestre;
+import classaid.pdf.GenerateurBulletin;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         System.out.println("pref_annee_scolaire : " + Integer.parseInt(pref.getString("pref_annee_scolaire", "-1")));
 
+
         MainActivity.ClassaidDatabase = Database.getDatabase(this.getApplicationContext(), 2016, false);
+
 
         // test de la base de données calendrier
         classaid.calendrier.Database.test(this.getApplicationContext());
@@ -97,6 +101,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        MenuItem bulletin = menu.findItem(R.id.action_bulletin);
+        bulletin.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Eleve e = ClassaidDatabase.getEleve("Eponge", "Bob");
+                if(e == null ) return true;
+                Trimestre t = ClassaidDatabase.getTrimestre(1);
+                if(t == null) return true;
+                GenerateurBulletin b = new GenerateurBulletin(getApplicationContext(), e, t);
+                b.generePdf("bob_eponge_1.pdf");
+                return true;
+            }
+        });
+
 
         return true;
     }

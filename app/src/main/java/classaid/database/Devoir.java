@@ -32,13 +32,18 @@ public class Devoir extends DatabaseEntity {
     String commentaire;
 
     /**
+     * La compétence associé au devoir.
+     */
+    private Competence competence;
+
+    /**
      * Le nom de la table associée à l'entité.
      */
     public static String TableName = "Devoir";
     /**
      * La valeur de la clause SELECT permettant de créer une entité de ce type.
      */
-    public static String SelectClause = " Devoir_id, Devoir_date, Devoir_commentaire, Devoir.TypeNotation_id ";
+    public static String SelectClause = " Devoir_id, Devoir_date, Devoir_commentaire, Devoir.TypeNotation_id, Devoir.Competence_id ";
 
     /**
      * Construit une entité de type Devoir à partir d'un tuple de la base.
@@ -53,6 +58,7 @@ public class Devoir extends DatabaseEntity {
         date = new Date(c.getLong(1));
         commentaire = c.getString(2);
         if(commentaire == null) commentaire = "";
+        competence = d.getCompetence(c.getInt(4));
     }
 
     /**
@@ -143,6 +149,15 @@ public class Devoir extends DatabaseEntity {
             this.commentaire = c;
         }
         return rowsAffected == 1;
+    }
+
+    /**
+     * Retourne la compétence associé à ce devoir.
+     * @return
+     */
+    public Competence getCompetence()
+    {
+        return this.competence;
     }
 
     /**

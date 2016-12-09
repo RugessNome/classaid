@@ -11,6 +11,10 @@
         android:id="@+id/action_trimestre"
         android:icon="@android:drawable/ic_menu_edit"
         app:showAsAction="always" />
+    <item android:title="Bulletin"
+        android:id="@+id/action_bulletin"
+        android:icon="@android:drawable/ic_menu_more"
+        app:showAsAction="always" />
     <item android:title="Settings"
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_manage"

@@ -6,5 +6,20 @@
         android:summary="@string/pref_annee_scolaire_description"
 		android:numeric="integer"
         android:defaultValue="2016" />
+    <EditTextPreference
+        android:key="pref_nom_enseignant"
+        android:title="@string/pref_nom_enseignant_titre"
+        android:summary="@string/pref_nom_enseignant_description"
+        android:defaultValue="" />
+    <EditTextPreference
+        android:key="pref_nom_ecole"
+        android:title="@string/pref_nom_ecole_titre"
+        android:summary="@string/pref_nom_ecole_description"
+        android:defaultValue="" />
+    <EditTextPreference
+        android:key="pref_nom_classe"
+        android:title="@string/pref_nom_classe_titre"
+        android:summary="@string/pref_nom_classe_description"
+        android:defaultValue="" />
 </PreferenceScreen>
 

@@ -10,6 +10,16 @@
 
     <string name="pref_annee_scolaire_titre">Année scolaire</string>
     <string name="pref_annee_scolaire_description">Une base de donnée est créée pour chaque année</string>
+
+    <string name="pref_nom_enseignant_titre">Nom de l\'enseignant</string>
+    <string name="pref_nom_enseignant_description">Ce nom sera utilisé pour générer les bulletins</string>
+
+    <string name="pref_nom_ecole_titre">Nom de l\'école</string>
+    <string name="pref_nom_ecole_description">Ce nom sera utilisé pour générer les bulletins</string>
+
+    <string name="pref_nom_classe_titre">Nom de la classe</string>
+    <string name="pref_nom_classe_description">Ce nom sera utilisé pour générer les bulletins</string>
+
     <string-array name="liste_sexes">
         <item>M</item>
         <item>F</item>
