@@ -67,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         System.out.println("pref_annee_scolaire : " + Integer.parseInt(pref.getString("pref_annee_scolaire", "-1")));
 
+
         MainActivity.ClassaidDatabase = Database.getDatabase(this.getApplicationContext(), 2016, false);
+
 
         // test de la base de données calendrier
         classaid.calendrier.Database.test(this.getApplicationContext());

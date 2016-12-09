@@ -6,29 +6,52 @@
 
     <ImageView
         android:id="@+id/item_icon"
-        android:layout_weight="1"
+        android:layout_weight="0"
         app:srcCompat="@drawable/devoir_icon"
         android:layout_width="64dip"
         android:layout_height="64dip" />
 
+    <Space
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_width="16dip" />
+
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="0">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:text="Title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_title"
             android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textAlignment="viewStart" />
 
         <TextView
             android:text="Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_weight="1" />
+
+        <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/item_description" />
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 </LinearLayout>

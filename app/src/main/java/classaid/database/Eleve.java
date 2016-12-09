@@ -56,7 +56,7 @@ public class Eleve extends DatabaseEntity {
         personneId = c.getInt(1);
         nom = c.getString(2);
         prenom = c.getString(3);
-        dateNaissance = new Date(c.getInt(4));
+        dateNaissance = new Date(c.getLong(4));
         sexe = c.getInt(5);
 
 

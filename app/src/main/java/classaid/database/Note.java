@@ -57,6 +57,7 @@ public class Note extends DatabaseEntity {
         absent = (c.getInt(1) == 1);
         valeur = c.getFloat(2);
         commentaire = c.getString(3);
+        typeNotation = c.getInt(6);
     }
 
     /**
