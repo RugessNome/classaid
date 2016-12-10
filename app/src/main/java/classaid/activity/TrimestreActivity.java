@@ -57,24 +57,6 @@ public class TrimestreActivity extends AppCompatActivity {
 
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            int year = getArguments().getInt("year");
-            int month = getArguments().getInt("month");
-            int day = getArguments().getInt("day");
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-        }
-    }
 
     protected void updateBouton(Button b, int year, int month, int day) {
         Calendar d = new GregorianCalendar(year, month, day);

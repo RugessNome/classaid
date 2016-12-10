@@ -1,17 +1,22 @@
 package classaid.activity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import classaid.database.DonneeSupplementaire;
@@ -25,6 +30,13 @@ public class Eleve_Activity extends Activity {
      * Peut valoir null si le but de l'activité est de créer un élève.
      */
     private Integer eleveId;
+
+    /**
+     * La date de naissance de l'élève stocké dans un Calendar
+     */
+    private Calendar dateNaissance;
+
+    static private SimpleDateFormat DateNaissanceFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     /**
      * Classe représentant une donnée supplémentaire qui n'existe pas forcément dans
@@ -107,10 +119,13 @@ public class Eleve_Activity extends Activity {
             nom.setText(e.getNom());
             EditText prenom = (EditText) findViewById(R.id.prenom);
             prenom.setText(e.getPrenom());
-            EditText naissance = (EditText) findViewById(R.id.date_naissance);
-            naissance.setText(e.getDateNaissance().toString());
+            Button naissance = (Button) findViewById(R.id.date_naissance);
+            dateNaissance = new GregorianCalendar();
+            dateNaissance.setTimeInMillis(e.getDateNaissance().getTime());
+            naissance.setText(DateNaissanceFormat.format(e.getDateNaissance()));
             Spinner sexe = (Spinner) findViewById(R.id.sexe);
             sexe.setSelection(e.getSexe() == 0 ? 0 : 1);
+
 
             for(DonneeSupplementaire d : e.getDonneesSupplementaires()) {
                 DonneeStruct dsup = new DonneeStruct(d.id());
@@ -150,6 +165,14 @@ public class Eleve_Activity extends Activity {
             }
         });
 
+        Button naissance = (Button) findViewById(R.id.date_naissance);
+        naissance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
     }
 
     /**
@@ -160,12 +183,11 @@ public class Eleve_Activity extends Activity {
         // récupération des informations sur l'élève
         String nom = ((EditText) findViewById(R.id.nom)).getText().toString();
         String prenom = ((EditText) findViewById(R.id.prenom)).getText().toString();
-        java.util.Date naissance = java.sql.Date.valueOf(((EditText) findViewById(R.id.date_naissance)).getText().toString());
         int sexe = ((Spinner) findViewById(R.id.sexe)).getSelectedItemPosition() == 0 ? 0 : 1;
 
         if(eleveId == null) {
             // création de l'élève
-            Eleve eleve = MainActivity.ClassaidDatabase.addEleve(nom, prenom, (Date) naissance, sexe);
+            Eleve eleve = MainActivity.ClassaidDatabase.addEleve(nom, prenom, new java.sql.Date(dateNaissance.getTimeInMillis()), sexe);
             if(eleve == null) {
                 // erreur : que faire ?
                 return;
@@ -185,7 +207,7 @@ public class Eleve_Activity extends Activity {
             }
             e.setNom(nom);
             e.setPrenom(prenom);
-            e.setDateNaissance((Date) naissance);
+            e.setDateNaissance(new java.sql.Date(dateNaissance.getTimeInMillis()));
             e.setSexe(sexe);
 
             // ajout ou maj des données supplémentaires
@@ -246,5 +268,31 @@ public class Eleve_Activity extends Activity {
 
         LinearLayout donnees_sup_layout = (LinearLayout) findViewById(R.id.layout_donnees_supplementaires);
         donnees_sup_layout.removeView(dsup.view);
+    }
+
+    /**
+     * Met à jour la date de naissance de l'élève
+     * @param year
+     * @param month
+     * @param day
+     */
+    protected  void updateDateNaissance(int year, int month, int day)
+    {
+        dateNaissance = new GregorianCalendar(year, month, day);
+        Button button = (Button) findViewById(R.id.date_naissance);
+        button.setText(DateNaissanceFormat.format(new Date(dateNaissance.getTimeInMillis())));
+    }
+
+    protected void showDatePickerDialog() {
+        if(dateNaissance == null) { dateNaissance = Calendar.getInstance(); }
+
+
+        DatePickerDialog picker = new DatePickerDialog(Eleve_Activity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                updateDateNaissance(year, month, day);
+            }
+        }, dateNaissance.get(Calendar.YEAR), dateNaissance.get(Calendar.MONTH), dateNaissance.get(Calendar.DAY_OF_MONTH));
+        picker.show();
     }
 }

@@ -1,6 +1,7 @@
 package classaid.activity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -19,6 +22,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import classaid.database.Devoir;
@@ -31,6 +38,10 @@ public class Devoir_Activity extends Activity {
     private Devoir devoir;
 
     private SimpleAdaptater listAdaptater;
+
+    private Calendar dateDevoir;
+
+    private static SimpleDateFormat DateDevoirFormat = new SimpleDateFormat("EEE d MMM yyyy");;
 
 
     /**
@@ -101,8 +112,17 @@ public class Devoir_Activity extends Activity {
             throw new RuntimeException("Devoir_Activity needs a Devoir entity to work.");
         }
 
-        EditText date = (EditText) findViewById(R.id.date_textedit);
-        date.setText(devoir.getDate().toString());
+        Button date = (Button) findViewById(R.id.date_button);
+        dateDevoir = new GregorianCalendar();
+        dateDevoir.setTimeInMillis(devoir.getDate().getTime());
+        date.setText(DateDevoirFormat.format(devoir.getDate()));
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
 
         EditText commentaire = (EditText) findViewById(R.id.commentaire_textedit);
         commentaire.setText(devoir.getCommentaire());
@@ -240,8 +260,7 @@ public class Devoir_Activity extends Activity {
         EditText commentaire = (EditText) findViewById(R.id.commentaire_textedit);
         devoir.setCommentaire(commentaire.getText().toString());
 
-        EditText date = (EditText) findViewById(R.id.date_textedit);
-        devoir.setDate(java.sql.Date.valueOf(date.getText().toString()));
+        devoir.setDate(new java.sql.Date(dateDevoir.getTimeInMillis()));
 
         Spinner notation = (Spinner) findViewById(R.id.typenotation_spinner);
         int typenotation = notation.getSelectedItemPosition() + 1;
@@ -260,5 +279,30 @@ public class Devoir_Activity extends Activity {
                 n.setValeur(Float.valueOf(valeur.getText().toString()));
             }
         }
+    }
+
+    /**
+     * Met à jour la date de naissance de l'élève
+     * @param year
+     * @param month
+     * @param day
+     */
+    protected  void updateDateDevoir(int year, int month, int day)
+    {
+        dateDevoir = new GregorianCalendar(year, month, day);
+        Button button = (Button) findViewById(R.id.date_button);
+        button.setText(DateDevoirFormat.format(new Date(dateDevoir.getTimeInMillis())));
+    }
+
+    protected void showDatePickerDialog() {
+        if(dateDevoir == null) { dateDevoir = Calendar.getInstance(); }
+
+        DatePickerDialog picker = new DatePickerDialog(Devoir_Activity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                updateDateDevoir(year, month, day);
+            }
+        }, dateDevoir.get(Calendar.YEAR), dateDevoir.get(Calendar.MONTH), dateDevoir.get(Calendar.DAY_OF_MONTH));
+        picker.show();
     }
 }

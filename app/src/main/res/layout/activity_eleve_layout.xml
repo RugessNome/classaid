@@ -73,16 +73,20 @@
                         android:text="Date de naissance : "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/label_date_naissance" />
+                        android:id="@+id/label_date_naissance"
+                        android:layout_weight="0" />
 
-                    <EditText
+                    <Button
+                        android:text="\?"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:inputType="date"
-                        android:ems="10"
                         android:id="@+id/date_naissance"
-                        android:singleLine="true"
-                        android:hint="YYYY-MM-DD" />
+                        android:layout_weight="0" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </TableRow>
 
                 <TableRow

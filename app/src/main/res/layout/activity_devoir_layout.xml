@@ -22,14 +22,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/date_label" />
 
-        <EditText
+        <Button
+            android:text="\?"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/date_textedit"
-            android:hint="DD-MM-YYYY"
-            android:singleLine="true" />
+            android:id="@+id/date_button" />
 
         <TextView
             android:text="Type de notation"
