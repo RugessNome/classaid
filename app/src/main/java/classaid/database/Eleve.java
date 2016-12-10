@@ -39,10 +39,14 @@ public class Eleve extends DatabaseEntity {
      * 0 pour masculin, 1 pour féminin
      */
     private int sexe;
+    /**
+     * Le chemin de la photo
+     */
+    private String photo;
     private List<DonneeSupplementaire> donneesSupplementaires;
 
     public static String TableName = "Eleve";
-    public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe ";
+    public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe, Eleve_photo ";
 
     /**
      * Construit une entité Eleve à partir d'un tuple d'une base de données
@@ -58,6 +62,7 @@ public class Eleve extends DatabaseEntity {
         prenom = c.getString(3);
         dateNaissance = new Date(c.getLong(4));
         sexe = c.getInt(5);
+        photo = c.getString(6);
 
 
     }
@@ -233,6 +238,38 @@ public class Eleve extends DatabaseEntity {
         DonneeSupplementaire ret = this.getDatabase().addDonneeSupplementaire(this, nom, valeur);
         if(ret != null) { this.donneesSupplementaires = null; }
         return ret;
+    }
+
+    /**
+     * Retourne le chemin de la photo de l'élève.
+     * <p>
+     * La fonction renvoie une chaîne vide si aucune photo n'a été fournie.
+     * </p>
+     * @return
+     */
+    public String getPhoto()
+    {
+        return this.photo;
+    }
+
+    /**
+     * Change le chemin de la photo de l'élève
+     * @param chemin
+     */
+    public boolean setPhoto(String chemin)
+    {
+        if(chemin.equals(this.photo)) { return true; }
+
+        Database db = this.getDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Eleve_photo", chemin);
+
+        int rowsAffected = db.update("Eleve", values, "Eleve_id = " + this.id(), null);
+        if(rowsAffected > 0)
+        {
+            this.photo = chemin;
+        }
+        return rowsAffected == 1;
     }
 
     /**

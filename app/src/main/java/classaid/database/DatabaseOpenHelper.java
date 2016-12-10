@@ -39,6 +39,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE Eleve(" +
                 "Eleve_id INTEGER PRIMARY KEY,"+
                 "Personne_id INTEGER," +
+                "Eleve_photo TEXT DEFAULT ''," +
                 " " +
                 "FOREIGN KEY(Personne_id) REFERENCES Personne(Personne_id) ON DELETE CASCADE" +
                 ");");

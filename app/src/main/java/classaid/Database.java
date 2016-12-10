@@ -180,7 +180,7 @@ public class Database {
     {
         List<Eleve> list = new ArrayList<Eleve>();
 
-        Cursor c = this.rawQuery("SELECT Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe " +
+        Cursor c = this.rawQuery("SELECT " + Eleve.SelectClause +
         " FROM Eleve JOIN Personne ON Eleve.Personne_id = Personne.Personne_id", null);
 
         if(!c.moveToFirst())
@@ -209,7 +209,7 @@ public class Database {
      */
     public Eleve getEleve(int id)
     {
-        Cursor c = this.rawQuery("SELECT Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe " +
+        Cursor c = this.rawQuery("SELECT " + Eleve.SelectClause +
                 "FROM Eleve JOIN Personne ON Eleve.Personne_id = Personne.Personne_id " +
                 " WHERE Eleve_id = " + id, null);
 
