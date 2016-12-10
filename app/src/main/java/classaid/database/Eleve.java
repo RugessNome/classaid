@@ -283,18 +283,22 @@ public class Eleve extends DatabaseEntity {
     }
 
     /**
-     * Renvoie true si l'eleve a une note pour la competence donné une une des
+     * Renvoie true si l'eleve a une note pour la competence donné ou une des
      * sous-compétences de n'importe quel niveau de profondeur.
+     * <p>
+     * Note : l'élève doit avoir au moins une note pour laquelle il n'est pas marqué absent
+     * pour être considéré comme étant noté.
+     * </p>
      * @param c
      * @param t filtre Trimestre (peut valoir null)
      * @return
      */
     public boolean estNote(Competence c, Trimestre t) {
-        if(t != null) {
-            if(!c.getNotes(this, t.id()).isEmpty()) return true;
-
-        } else {
-            if(!c.getNotes(this).isEmpty()) return true;
+        List<Note> notes = (t != null ? c.getNotes(this, t.id()) : c.getNotes(this));
+        for(Note n : notes) {
+            if(n.getAbsent() == false) {
+                return true;
+            }
         }
 
         for(Competence sc : c.getSousCompetences()) {
@@ -321,6 +325,10 @@ public class Eleve extends DatabaseEntity {
         List<Competence> ret = new ArrayList<Competence>();
         List<Note> notes = getNotes();
         for(Note n : notes) {
+            if(n.getAbsent()) {
+                continue;
+            }
+
             if(t != null && n.getDevoir().getTrimestre().id() != t.id()) {
                 continue;
             }
@@ -399,10 +407,18 @@ public class Eleve extends DatabaseEntity {
         }
 
         float total = 0.f;
+        int absent = 0;
         for(Note n : notes) {
+            if(n.getAbsent()) {
+                absent += 1;
+                continue;
+            }
             total += n.scaledValue();
         }
-        return total / notes.size();
+        if(absent == notes.size()) {
+            throw new IllegalArgumentException("Eleve.calculTauxReussite() : l'élève a été absent pour tous les devoirs de cette compétence");
+        }
+        return total / (notes.size()-absent);
     }
 
 }

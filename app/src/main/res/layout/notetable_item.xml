@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_action_delete"
-        android:id="@+id/bouton_suppr" />
+        android:id="@+id/bouton_suppr"
+        android:background="@null" />
 
 </TableRow>

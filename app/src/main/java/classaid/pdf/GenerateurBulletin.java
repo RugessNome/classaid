@@ -3,9 +3,13 @@ package classaid.pdf;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Build;
@@ -15,7 +19,10 @@ import android.print.PrintAttributes;
 import android.print.pdf.PrintedPdfDocument;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import classaid.database.Competence;
@@ -58,7 +65,36 @@ public class GenerateurBulletin {
     /**
      * L'interligne en pixel
      */
-    final static public int Interligne = 15;
+    final static public int Interligne = 6;
+
+    final public  static float IndentCompetence1 = 10.0f;
+    final public  static float IndentCompetence2 = 20.0f;
+    final public  static float IndentCompetence3 = 30.0f;
+
+    final public static float BottomMarginCompetence0 = 16.0f;
+    final public static float BottomMarginCompetence1 = 10.0f;
+    final public static float BottomMarginCompetence2 = 10.0f;
+    final public static float BottomMarginCompetence3 = 10.0f;
+
+    final static public String Police = "Arial";
+
+    static public Paint PinceauHeader0() {
+        Paint p = new Paint();
+        p.setTextSize(14);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
+        p.setColor(ColorBlack);
+        p.setTypeface(Typeface.create(Police, Typeface.NORMAL));
+        return p;
+    }
+
+    static public Paint PinceauHeader1() {
+        Paint p = new Paint();
+        p.setTextSize(12);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
+        p.setColor(ColorBlack);
+        p.setTypeface(Typeface.create(Police, Typeface.NORMAL));
+        return p;
+    }
 
     /**
      * Renvoie le pinceau a utiliser pour écrire une compétence de
@@ -68,9 +104,9 @@ public class GenerateurBulletin {
     static public Paint PinceauCompetence0() {
         Paint p = new Paint();
         p.setTextSize(14);
-        p.setStyle(Paint.Style.STROKE);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
         p.setColor(ColorBlack);
-        p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p.setTypeface(Typeface.create(Police, Typeface.BOLD));
         return p;
     }
 
@@ -82,9 +118,9 @@ public class GenerateurBulletin {
     static public Paint PinceauCompetence1() {
         Paint p = new Paint();
         p.setTextSize(12);
-        p.setStyle(Paint.Style.STROKE);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
         p.setColor(ColorBlack);
-        p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p.setTypeface(Typeface.create(Police, Typeface.BOLD));
         return p;
     }
 
@@ -96,7 +132,22 @@ public class GenerateurBulletin {
     static public Paint PinceauCompetence2() {
         Paint p = new Paint();
         p.setTextSize(12);
-        p.setStyle(Paint.Style.STROKE);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
+        p.setTypeface(Typeface.create(Police, Typeface.BOLD));
+        p.setColor(ColorBlack);
+        return p;
+    }
+
+    /**
+     * Renvoie le pinceau a utiliser pour écrire une compétence de
+     * pronfondeur 3 (sous-sous-compétence)
+     * @return
+     */
+    static public Paint PinceauCompetence3() {
+        Paint p = new Paint();
+        p.setTextSize(12);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
+        p.setTypeface(Typeface.create(Police, Typeface.NORMAL));
         p.setColor(ColorBlack);
         return p;
     }
@@ -104,10 +155,41 @@ public class GenerateurBulletin {
     static public Paint PinceauFooter() {
         Paint p = new Paint();
         p.setTextSize(12);
-        p.setStyle(Paint.Style.STROKE);
+        p.setStyle(Paint.Style.FILL_AND_STROKE);
+        p.setTypeface(Typeface.create(Police, Typeface.NORMAL));
         p.setColor(ColorBlack);
         return p;
     }
+
+    static public Paint PinceauRect1()
+    {
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(ColorBlack);
+        p.setStrokeWidth(1.15f);
+        return p;
+    }
+
+    static public Paint PinceauLine1()
+    {
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(ColorBlack);
+        p.setStrokeWidth(1.15f);
+        return p;
+    }
+
+    public String getCycleString()
+    {
+        return "Cycle 2";
+    }
+
+    public String getCoursString()
+    {
+        return "CP - Cours préparatoire";
+    }
+
+
 
 
     /**
@@ -149,6 +231,21 @@ public class GenerateurBulletin {
         pdf = new PrintedPdfDocument(con, pattr);
     }
 
+    public Bitmap getLogoBulletin()
+    {
+        try {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            File f = new File(pref.getString("pref_logo_bulletin", ""));
+            if(!f.exists()) {
+                return null;
+            }
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
     /**
      * Génère et enregistre le bulletin au format PDF dans un fichier.
      */
@@ -156,6 +253,10 @@ public class GenerateurBulletin {
     {
         pagecount = 0;
         startNewPage();
+
+        /// test
+        //testCanvasDrawText();
+        /// test
 
         System.out.println("GenerateurBulletin.generePdf() : canvas.getHeight() = " + canvas.getHeight());
         System.out.println(page.getInfo().getContentRect().toString());
@@ -244,32 +345,75 @@ public class GenerateurBulletin {
         return Math.round(cm * ((float) canvas.getHeight()) / (29.7f - TopMargin - BottomMargin));
     }
 
+
+    /**
+     * Parce que la peinture ça ne s'improvise pas !
+     */
+    private void testCanvasDrawText()
+    {
+        Paint painter = new Paint();
+        painter.setColor(ColorBlack);
+        painter.setTextSize(18.f);
+        //painter.setStyle(Paint.Style.STROKE);
+        painter.setTypeface(Typeface.create("Arial", Typeface.NORMAL));
+
+        final int RectMargin = 20;
+
+
+        Rect rect = new Rect();
+        String str = "Bob l'Eponge carré (et Patrick) !";
+        painter.getTextBounds(str, 0, str.length(), rect);
+
+        painter.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(new Rect(0, offset, rect.width(), offset+rect.height()+RectMargin), painter);
+        painter.setStyle(Paint.Style.FILL_AND_STROKE);
+
+        Paint.FontMetricsInt metrics = painter.getFontMetricsInt();
+
+        //int y = offset + (rect.height()+RectMargin) - metrics.bottom - RectMargin/2;
+        int y = offset + (rect.height()+RectMargin)/2 + metrics.bottom;
+        painter.setStrokeWidth(1.25f);
+        painter.setColor(Color.RED);
+        canvas.drawLine(0, y + metrics.descent, rect.width(), y + metrics.descent, painter);
+        painter.setColor(Color.GREEN);
+        canvas.drawLine(0, y + metrics.ascent, rect.width(), y + metrics.ascent, painter);
+        painter.setColor(Color.YELLOW);
+        canvas.drawLine(0, y + metrics.bottom, rect.width(), y + metrics.bottom, painter);
+        painter.setColor(Color.MAGENTA);
+        canvas.drawLine(0, y + metrics.top, rect.width(), y + metrics.top, painter);
+        painter.setStrokeWidth(1.f);
+
+        painter.setColor(ColorBlack);
+        canvas.drawText(str, 0, y, painter);
+
+        offset += rect.height() + RectMargin;
+
+    }
+
     /**
      * Ecrit l'entête du bulletin sur la page courante.
      */
     private void printHeaders()
     {
-        final String Str_Cycle2 = "Cycle 2";
-        final String Str_CpCoursPreparatoire = "CP - Cours préparatoire";
-        final int RectMargin = 10;
-        final int Spacing1 = 16;
-        final int Spacing2 = 16;
+        final String Str_Cycle = getCycleString();
+        final String Str_CpCoursPreparatoire = getCoursString();
+        final int RectMargin = 6;
+        final int Spacing1 = 26;
+        final int Spacing2 = 14;
 
-        Paint painter = new Paint();
-        painter.setColor(ColorBlack);
-        painter.setTextSize(14.f);
-        painter.setStyle(Paint.Style.STROKE);
+        Paint painter = PinceauHeader0();
 
         Rect rect = new Rect();
         painter.getTextBounds(Str_CpCoursPreparatoire, 0, Str_CpCoursPreparatoire.length(), rect);
 
-        canvas.drawRect(new Rect(0, offset, canvas.getWidth(), offset + rect.height() + RectMargin), painter);
-        canvas.drawText(Str_Cycle2, 0.f, offset + painter.getFontMetrics().descent + (rect.height() + RectMargin) / 2, painter);
-        canvas.drawText(Str_CpCoursPreparatoire, canvas.getWidth() - rect.width() - RectMargin, offset + painter.getFontMetrics().descent + (rect.height() + RectMargin) / 2, painter);
+        canvas.drawRect(new Rect(0, offset, canvas.getWidth(), offset + rect.height() + RectMargin), PinceauRect1());
+        canvas.drawText(Str_Cycle, RectMargin, offset + (rect.height()+RectMargin)/2 + painter.getFontMetricsInt().bottom, painter);
+        canvas.drawText(Str_CpCoursPreparatoire, canvas.getWidth() - painter.measureText(Str_CpCoursPreparatoire) - RectMargin, offset + (rect.height()+RectMargin)/2 + painter.getFontMetricsInt().bottom, painter);
 
         offset += rect.height() + RectMargin;
 
         offset += Spacing1;
+
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         final String ecole = pref.getString("pref_nom_ecole", "");
@@ -286,25 +430,37 @@ public class GenerateurBulletin {
         String elv = "Elève : " + eleve.getNom() + " " + eleve.getPrenom();
         final int leftmargin = canvas.getWidth() / 4;
 
-        painter.setTextSize(12.f);
+        painter = PinceauHeader1();
+
+        Bitmap logo = getLogoBulletin();
+        if(logo != null) {
+            float logo_width = logo.getWidth();
+            float logo_height = logo.getHeight();
+            float scaleFactor = logo_width / leftmargin;
+            float scaledWidth = logo.getWidth() / scaleFactor;
+            float scaledHeight = logo.getHeight() / scaleFactor;
+            //logo = Bitmap.createScaledBitmap(logo, Math.round(logo.getWidth() / scaleFactor), Math.round(logo.getHeight() / scaleFactor), false);
+            canvas.drawBitmap(logo, null, new RectF(0, offset, scaledWidth, offset+scaledHeight), painter);
+        }
 
         painter.getTextBounds(ecole, 0, ecole.length(), rect);
         canvas.drawText(ecole, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
 
-        painter.getTextBounds(classe, 0, ecole.length(), rect);
+        painter.getTextBounds(classe, 0, classe.length(), rect);
         canvas.drawText(classe, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
 
-        painter.getTextBounds(annee_scol, 0, ecole.length(), rect);
+        painter.getTextBounds(annee_scol, 0, annee_scol.length(), rect);
         canvas.drawText(annee_scol, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
 
-        painter.getTextBounds(trimestre_str, 0, ecole.length(), rect);
+        painter.getTextBounds(trimestre_str, 0, trimestre_str.length(), rect);
         canvas.drawText(trimestre_str, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
 
-        painter.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+        painter.setTypeface(Typeface.create(Police, Typeface.BOLD));
         painter.getTextBounds(elv, 0, ecole.length(), rect);
         canvas.drawText(elv, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
@@ -321,6 +477,7 @@ public class GenerateurBulletin {
          * Marge entre le bas de page et le contenu de la page (en points du Canvas)
          */
         final int footermargin = 5;
+        final float stroke_width = 1.15f;
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String enseignant = pref.getString("pref_nom_enseignant", "");
@@ -332,9 +489,10 @@ public class GenerateurBulletin {
         Rect eleve_rect = new Rect();
         p.getTextBounds(elv, 0, elv.length(), eleve_rect);
         int h = Math.max(eleve_rect.height(), enseignant_rect.height());
-        canvas.drawLine(0, canvas.getHeight() - h, canvas.getWidth(), canvas.getHeight() - h, p);
-        canvas.drawText(enseignant, 0, canvas.getHeight() - h/2, p);
-        canvas.drawText(elv, canvas.getWidth() - eleve_rect.width(), canvas.getHeight() - h/2, p);
+        canvas.drawText(enseignant, 0, canvas.getHeight() - h/2 + p.getFontMetricsInt().bottom, p);
+        canvas.drawText(elv, canvas.getWidth() - p.measureText(elv), canvas.getHeight() - h/2 + p.getFontMetricsInt().bottom, p);
+        canvas.drawLine(0, canvas.getHeight() - h, canvas.getWidth(), canvas.getHeight() - h, PinceauLine1());
+
 
         footerheight = h + footermargin;
     }
@@ -357,6 +515,7 @@ public class GenerateurBulletin {
     private void printCompetence(Competence c) {
         if(c.depth() == 0)  {
             final int RectPadding = 10;
+            final int RectLeftPadding = 6;
 
             String name = c.getNom();
             Paint p = PinceauCompetence0();
@@ -370,14 +529,14 @@ public class GenerateurBulletin {
             }
 
             // on dessine le rectanle
-            canvas.drawRect(black_rect, p);
+            canvas.drawRect(black_rect, PinceauRect1());
             // puis le nom de la compétence
-            canvas.drawText(name, 0, offset + black_rect.height() / 2 + RectPadding / 2 , p);
+            canvas.drawText(name, RectLeftPadding, offset + black_rect.height() / 2 + p.getFontMetricsInt().bottom , p);
             //  et enfin le taux de réussite
-            canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset + black_rect.height() / 2 +  RectPadding / 2, p);
+            canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset + black_rect.height() / 2 + p.getFontMetricsInt().bottom, p);
 
             // on avance dans la page
-            offset += black_rect.height() + Interligne;
+            offset += black_rect.height() + BottomMarginCompetence0;
 
         }
         else if(c.depth() == 1)
@@ -394,16 +553,16 @@ public class GenerateurBulletin {
             }
 
             // on dessine le nom de la compétence
-            canvas.drawText(name, 0, offset, p);
+            canvas.drawText(name, IndentCompetence1, offset, p);
             //  et le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
             // avant de souligner le tout
-            canvas.drawLine(0, offset + p.getFontMetrics().descent, canvas.getWidth(), offset + p.getFontMetrics().descent, p);
+            canvas.drawLine(IndentCompetence1, offset + p.getFontMetrics().bottom, canvas.getWidth(), offset + p.getFontMetrics().bottom, PinceauLine1());
 
             // on avance dans la page
-            offset += textRect.height() + Interligne;
+            offset += textRect.height() + BottomMarginCompetence1;
         }
-        else // c.depth() == 2
+        else if(c.depth() == 2)
         {
             String name = c.getNom();
             Paint p = PinceauCompetence2();
@@ -417,12 +576,33 @@ public class GenerateurBulletin {
             }
 
             // on dessine le nom de la compétence
-            canvas.drawText(name, 0, offset, p);
+            canvas.drawText(name, IndentCompetence2, offset, p);
             //  et le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
 
             // on avance dans la page
-            offset += textRect.height() + Interligne;
+            offset += textRect.height() + BottomMarginCompetence2;
+        }
+        else if(c.depth() == 3)
+        {
+            String name = c.getNom();
+            Paint p = PinceauCompetence3();
+            Rect textRect = new Rect();
+            p.getTextBounds(name, 0, name.length(), textRect);
+            float taux_reussite = eleve.calculTauxReussite(c, trimestre);
+            String tauxReussite = String.format("%.2f", taux_reussite) + "%";
+
+            if(!hasEnoughSpace(textRect.height())) {
+                startNewPage();
+            }
+
+            // on dessine le nom de la compétence
+            canvas.drawText(name, IndentCompetence3, offset, p);
+            //  et le taux de réussite
+            canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
+
+            // on avance dans la page
+            offset += textRect.height() + BottomMarginCompetence3;
         }
 
         // enfin, on imprime les sous-compétences

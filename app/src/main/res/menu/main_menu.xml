@@ -14,7 +14,16 @@
     <item android:title="Bulletin"
         android:id="@+id/action_bulletin"
         android:icon="@android:drawable/ic_menu_more"
-        app:showAsAction="always" />
+        app:showAsAction="always" >
+        <menu >
+            <item android:title="Trimestre 1"
+                android:id="@+id/trimestre1" />
+            <item android:title="Trimestre 2"
+                android:id="@+id/trimestre2" />
+            <item android:title="Trimestre 3"
+                android:id="@+id/trimestre3" />
+        </menu>
+    </item>
     <item android:title="Settings"
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_manage"

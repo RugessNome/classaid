@@ -32,14 +32,16 @@ public class Database {
      * Base de données SQLite.
      */
     private SQLiteDatabase db;
+    private int annee;
 
     /**
      * Construit un objet de type Database à partir d'une base de données SQLite ouverte.
      * @param database
      */
-    private Database(SQLiteDatabase database)
+    private Database(SQLiteDatabase database, int a)
     {
         db = database;
+        annee = a;
     }
 
     /**
@@ -57,9 +59,18 @@ public class Database {
         DatabaseOpenHelper helper = new DatabaseOpenHelper(con, "db_" + year);
         if(readOnly)
         {
-            return new Database(helper.getReadableDatabase());
+            return new Database(helper.getReadableDatabase(), year);
         }
-        return new Database(helper.getWritableDatabase());
+        return new Database(helper.getWritableDatabase(), year);
+    }
+
+    /**
+     * Renvoie l'année scolaire correspondant à la base de données.
+     * @return
+     */
+    public int getAnnee()
+    {
+        return annee;
     }
 
     /**
