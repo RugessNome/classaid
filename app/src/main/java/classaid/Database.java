@@ -184,7 +184,8 @@ public class Database {
     }
 
     /**
-     * Renvoie la liste des élèves présent dans la base de données.
+     * Renvoie la liste des élèves présent dans la base de données (par ordre alphabétique du
+     * prénom suivi du nom).
      * @return
      */
     public List<Eleve> getEleves()
@@ -192,7 +193,8 @@ public class Database {
         List<Eleve> list = new ArrayList<Eleve>();
 
         Cursor c = this.rawQuery("SELECT " + Eleve.SelectClause +
-        " FROM Eleve JOIN Personne ON Eleve.Personne_id = Personne.Personne_id", null);
+        " FROM Eleve JOIN Personne ON Eleve.Personne_id = Personne.Personne_id "
+         + " ORDER BY Personne_prenom, Personne_nom ", null);
 
         if(!c.moveToFirst())
         {
