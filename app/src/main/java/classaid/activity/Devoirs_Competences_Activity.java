@@ -277,7 +277,7 @@ public class Devoirs_Competences_Activity extends Activity {
                 }
                 java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
                 String current_date = df.format(new java.util.Date());
-                Devoir d = competenceParent.addDevoir(java.sql.Date.valueOf(current_date), TypeNotation.NotationSur20,false);
+                Devoir d = competenceParent.addDevoir(java.sql.Date.valueOf(current_date), TypeNotation.NotationSur20, true);
                 Intent myIntent = new Intent(Devoirs_Competences_Activity.this, Devoir_Activity.class);
                 myIntent.putExtra("devoir_id", d.id());
                 startActivity(myIntent);

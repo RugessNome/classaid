@@ -20,7 +20,8 @@
             android:text="Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date_label" />
+            android:id="@+id/date_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <Button
             android:text="\?"
@@ -32,7 +33,8 @@
             android:text="Type de notation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/typenotation_label" />
+            android:id="@+id/typenotation_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -44,7 +46,8 @@
             android:text="Commentaire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/commentaire_label" />
+            android:id="@+id/commentaire_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <EditText
             android:layout_width="match_parent"
@@ -57,7 +60,8 @@
             android:text="Notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/notes_label" />
+            android:id="@+id/notes_label"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -101,7 +105,9 @@
             android:text="Elèves non notés"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/list_eleves_non_notes_label" />
+            android:id="@+id/list_eleves_non_notes_label"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <ListView
             android:layout_width="match_parent"

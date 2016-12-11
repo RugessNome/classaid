@@ -82,9 +82,21 @@ public class Devoir_Activity extends Activity {
             return convertView;
         }
 
+        @Override
+        public boolean isEmpty()
+        {
+            return eleves.isEmpty();
+        }
+
         public void remove(int i)
         {
             eleves.remove(i);
+            notifyDataSetChanged();
+        }
+
+        public void add(Eleve e)
+        {
+            eleves.add(e);
             notifyDataSetChanged();
         }
     };
@@ -133,16 +145,9 @@ public class Devoir_Activity extends Activity {
             createTableRow(n, table);
         }
 
-        // le spinner sert à selectionner une élève pour lui ajouter une note
+        final TextView label_eleves_non_notes = (TextView) findViewById(R.id.list_eleves_non_notes_label);
         ListView eleves_listview = (ListView) findViewById(R.id.listview_eleves);
-        if(devoir == null)
-        {
-            listAdaptater = new SimpleAdaptater(MainActivity.ClassaidDatabase.getEleves());
-        }
-        else // devoir != null
-        {
-            listAdaptater = new SimpleAdaptater(devoir.getElevesNonNotes());
-        }
+        listAdaptater = new SimpleAdaptater(devoir.getElevesNonNotes());
         eleves_listview.setAdapter(listAdaptater);
         eleves_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,8 +155,16 @@ public class Devoir_Activity extends Activity {
                 Eleve e = listAdaptater.eleves.get(position);
                 addNote(e);
                 listAdaptater.remove(position);
+                if(listAdaptater.isEmpty()) {
+                    label_eleves_non_notes.setVisibility(View.GONE);
+                } else {
+                    label_eleves_non_notes.setVisibility(View.VISIBLE);
+                }
             }
         });
+        if(listAdaptater.isEmpty()) {
+            label_eleves_non_notes.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -162,6 +175,8 @@ public class Devoir_Activity extends Activity {
     {
         Note n = devoir.setNote(e, 0.f, "");
         createTableRow(n, (TableLayout) findViewById(R.id.note_tablelayout));
+        final TextView label_eleves_non_notes = (TextView) findViewById(R.id.list_eleves_non_notes_label);
+        label_eleves_non_notes.setVisibility(View.VISIBLE);
     }
 
     protected  void removeNote(TableRow row)
@@ -169,6 +184,11 @@ public class Devoir_Activity extends Activity {
         TableLayout table = (TableLayout) findViewById(R.id.note_tablelayout);
         table.removeView(row);
         Note n = (Note) row.getTag(R.id.noteref);
+        listAdaptater.add(n.getEleve());
+        final TextView label_eleves_non_notes = (TextView) findViewById(R.id.list_eleves_non_notes_label);
+        if(listAdaptater.isEmpty()) {
+            label_eleves_non_notes.setVisibility(View.GONE);
+        }
         n.delete();
     }
 
