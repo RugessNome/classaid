@@ -1,37 +1,17 @@
 package classaid.activity;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.FragmentManager;
-import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.net.Uri;
-import android.os.Build;
+import android.app.Activity;
 import android.os.Bundle;
-import android.app.TimePickerDialog;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
-import android.app.Activity;
-import android.widget.BaseAdapter;
 
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import classaid.calendrier.Database;
 

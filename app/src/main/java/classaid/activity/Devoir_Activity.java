@@ -3,9 +3,7 @@ package classaid.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.sax.TextElementListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,8 +18,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +27,6 @@ import java.util.List;
 import classaid.database.Devoir;
 import classaid.database.Eleve;
 import classaid.database.Note;
-import classaid.database.TypeNotation;
 
 public class Devoir_Activity extends Activity {
 

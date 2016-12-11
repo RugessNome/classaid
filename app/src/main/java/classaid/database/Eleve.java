@@ -9,11 +9,9 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.preference.PreferenceManager;
 
 /**
  * Created by Vincent on 12/11/2016.

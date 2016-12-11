@@ -3,7 +3,6 @@ package classaid.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;

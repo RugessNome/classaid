@@ -1,6 +1,5 @@
 package classaid.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +7,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.DateFormat;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +23,6 @@ import android.widget.TextView;
 
 import classaid.database.Competence;
 import classaid.database.Devoir;
-import classaid.database.Eleve;
 import classaid.database.Note;
 import classaid.database.Trimestre;
 import classaid.database.TypeNotation;
