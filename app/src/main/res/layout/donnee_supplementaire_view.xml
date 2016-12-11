@@ -6,26 +6,31 @@
 
     <EditText
         android:layout_width="wrap_content"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Nom"
-        android:ems="10"
         android:id="@+id/nom" />
 
     <EditText
         android:layout_width="wrap_content"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Valeur"
-        android:ems="10"
         android:id="@+id/valeur"
         android:maxLines="1" />
 
-    <ImageButton
-        android:layout_width="20dp"
+    <Space
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete"
-        android:id="@+id/bouton_supprimer"
         android:layout_weight="1" />
+
+    <ImageButton
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        android:id="@+id/bouton_supprimer"
+        android:layout_marginRight="20dp"
+        android:layout_width="40dp" />
 
 </LinearLayout>

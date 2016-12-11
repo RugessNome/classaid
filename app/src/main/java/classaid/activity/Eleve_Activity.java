@@ -286,6 +286,12 @@ public class Eleve_Activity extends Activity {
      */
     public void ajouterDonneeSupp() {
         DonneeStruct don = new DonneeStruct(-1);
+        don.getBoutonSuppr().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supprDonneeSup((ImageButton)v);
+            }
+        });
         this.donneesSupplementaires.add(don);
         LinearLayout donnees_sup_layout = (LinearLayout) findViewById(R.id.layout_donnees_supplementaires);
         donnees_sup_layout.addView(don.view);
@@ -303,7 +309,7 @@ public class Eleve_Activity extends Activity {
             break;
         }
         if(dsup == null) {
-            // erreur : que faire ?
+            return;
         }
         donneesSupplementaires.remove(dsup);
         if(dsup.id != -1) {

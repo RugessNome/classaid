@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="classaid.activity.Eleve_Activity">
 
     <ScrollView
         android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_weight="1"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <ImageView
@@ -25,7 +28,8 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_weight="0">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -115,7 +119,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_weight="0">
 
                 <TextView
                     android:text="Données personnelles"
@@ -143,17 +148,19 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:id="@+id/layout_donnees_supplementaires"></LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:text="Ok"
@@ -173,4 +180,6 @@
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+
+
+</LinearLayout>
