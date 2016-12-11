@@ -225,4 +225,31 @@ public class Competence extends DatabaseEntity {
 
         getDatabase().delete(Competence.TableName, "Competence_id = " + this.id(), null);
     }
+
+    /**
+     * Renvoie true si la compétence est notée pour le trimestre donnée.
+     */
+    public boolean estNotee(int numTrim)
+    {
+        List<Devoir> devoirs = getDevoirs();
+        for(Devoir d : devoirs)
+        {
+            if(d.getTrimestre() == null) {
+                continue;
+            }
+            if(d.getTrimestre().id() == numTrim) {
+                return true;
+            }
+        }
+
+        List<Competence> souscompetences = getSousCompetences();
+        for(Competence sc : souscompetences)
+        {
+            if(sc.estNotee(numTrim)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

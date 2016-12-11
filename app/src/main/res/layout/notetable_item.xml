@@ -10,7 +10,7 @@
         android:id="@+id/eleve_label" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="number|numberDecimal"
         android:text="Name"
@@ -18,17 +18,18 @@
         android:id="@+id/note_edittext" />
 
     <EditText
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:text="Name"
         android:ems="10"
-        android:id="@+id/appreciation_edittext" />
+        android:id="@+id/appreciation_edittext"
+        android:layout_weight="1" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_action_delete"
-        android:id="@+id/bouton_suppr" />
+        android:src="@drawable/ic_action_delete"
+        android:id="@+id/bouton_suppr"
+        android:background="@null" />
 
 </TableRow>

@@ -21,6 +21,9 @@
     <string name="pref_nom_classe_titre">Class name</string>
     <string name="pref_nom_classe_description">This name will be used for generating the report cards</string>
 
+    <string name="pref_logo_bulletin_titre">Logo bulletin</string>
+    <string name="pref_logo_bulletin_description">Chemin d\'accès vers le logo à afficher sur le bulletin</string>
+
     <string name="title_activity_eleve_">Eleve_Activity</string>
     <string-array name="liste_sexes">
         <item>M</item>

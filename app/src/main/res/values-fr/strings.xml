@@ -20,6 +20,10 @@
     <string name="pref_nom_classe_titre">Nom de la classe</string>
     <string name="pref_nom_classe_description">Ce nom sera utilisé pour générer les bulletins</string>
 
+    <string name="pref_logo_bulletin_titre">Logo bulletin</string>
+    <string name="pref_logo_bulletin_description">Chemin d\'accès vers le logo à afficher sur le bulletin</string>
+
+
     <string-array name="liste_sexes">
         <item>M</item>
         <item>F</item>

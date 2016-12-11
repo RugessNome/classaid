@@ -1,11 +1,19 @@
 package classaid.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 
 /**
  * Created by Vincent on 12/11/2016.
@@ -39,10 +47,14 @@ public class Eleve extends DatabaseEntity {
      * 0 pour masculin, 1 pour féminin
      */
     private int sexe;
+    /**
+     * Le chemin de la photo
+     */
+    private String photo;
     private List<DonneeSupplementaire> donneesSupplementaires;
 
     public static String TableName = "Eleve";
-    public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe ";
+    public static String SelectClause = " Eleve_id, Eleve.Personne_id, Personne_nom, Personne_prenom, Personne_dateNaissance, Personne_sexe, Eleve_photo ";
 
     /**
      * Construit une entité Eleve à partir d'un tuple d'une base de données
@@ -58,6 +70,7 @@ public class Eleve extends DatabaseEntity {
         prenom = c.getString(3);
         dateNaissance = new Date(c.getLong(4));
         sexe = c.getInt(5);
+        photo = c.getString(6);
 
 
     }
@@ -236,6 +249,60 @@ public class Eleve extends DatabaseEntity {
     }
 
     /**
+     * Retourne le chemin de la photo de l'élève.
+     * <p>
+     * La fonction renvoie une chaîne vide si aucune photo n'a été fournie.
+     * </p>
+     * @return
+     */
+    public String getPhoto()
+    {
+        return this.photo;
+    }
+
+    /**
+     * Renvoie la photo de l'élève sous la forme d'une image Bitmap.
+     * <p>
+     * Renvoie null si aucune photo n'a été fournie ou si l photo n'a pas pu être trouvée/chargée.
+     * </p>
+     * @param con
+     * @return
+     */
+    public Bitmap getBitmapPhoto(Context con)
+    {
+        try {
+            File f = new File(getPhoto());
+            if(!f.exists()) {
+                return null;
+            }
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Change le chemin de la photo de l'élève
+     * @param chemin
+     */
+    public boolean setPhoto(String chemin)
+    {
+        if(chemin.equals(this.photo)) { return true; }
+
+        Database db = this.getDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Eleve_photo", chemin);
+
+        int rowsAffected = db.update("Eleve", values, "Eleve_id = " + this.id(), null);
+        if(rowsAffected > 0)
+        {
+            this.photo = chemin;
+        }
+        return rowsAffected == 1;
+    }
+
+    /**
      * Récupere l'appréciation de l'élève pour une compétence donnée
      * @param c la compétence
      * @return l'appréciation en cas de succès, null sinon
@@ -246,18 +313,22 @@ public class Eleve extends DatabaseEntity {
     }
 
     /**
-     * Renvoie true si l'eleve a une note pour la competence donné une une des
+     * Renvoie true si l'eleve a une note pour la competence donné ou une des
      * sous-compétences de n'importe quel niveau de profondeur.
+     * <p>
+     * Note : l'élève doit avoir au moins une note pour laquelle il n'est pas marqué absent
+     * pour être considéré comme étant noté.
+     * </p>
      * @param c
      * @param t filtre Trimestre (peut valoir null)
      * @return
      */
     public boolean estNote(Competence c, Trimestre t) {
-        if(t != null) {
-            if(!c.getNotes(this, t.id()).isEmpty()) return true;
-
-        } else {
-            if(!c.getNotes(this).isEmpty()) return true;
+        List<Note> notes = (t != null ? c.getNotes(this, t.id()) : c.getNotes(this));
+        for(Note n : notes) {
+            if(n.getAbsent() == false) {
+                return true;
+            }
         }
 
         for(Competence sc : c.getSousCompetences()) {
@@ -284,6 +355,10 @@ public class Eleve extends DatabaseEntity {
         List<Competence> ret = new ArrayList<Competence>();
         List<Note> notes = getNotes();
         for(Note n : notes) {
+            if(n.getAbsent()) {
+                continue;
+            }
+
             if(t != null && n.getDevoir().getTrimestre().id() != t.id()) {
                 continue;
             }
@@ -362,10 +437,18 @@ public class Eleve extends DatabaseEntity {
         }
 
         float total = 0.f;
+        int absent = 0;
         for(Note n : notes) {
+            if(n.getAbsent()) {
+                absent += 1;
+                continue;
+            }
             total += n.scaledValue();
         }
-        return total / notes.size();
+        if(absent == notes.size()) {
+            throw new IllegalArgumentException("Eleve.calculTauxReussite() : l'élève a été absent pour tous les devoirs de cette compétence");
+        }
+        return total / (notes.size()-absent);
     }
 
 }
