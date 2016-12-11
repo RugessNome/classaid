@@ -138,7 +138,7 @@ public class GenerateurBulletin {
      */
     static public Paint PinceauCompetence2() {
         Paint p = new Paint();
-        p.setTextSize(12);
+        p.setTextSize(9);
         p.setStyle(Paint.Style.FILL_AND_STROKE);
         p.setTypeface(Typeface.create(Police, Typeface.BOLD));
         p.setColor(ColorBlack);
@@ -152,7 +152,7 @@ public class GenerateurBulletin {
      */
     static public Paint PinceauCompetence3() {
         Paint p = new Paint();
-        p.setTextSize(12);
+        p.setTextSize(8);
         p.setStyle(Paint.Style.FILL_AND_STROKE);
         p.setTypeface(Typeface.create(Police, Typeface.NORMAL));
         p.setColor(ColorBlack);
@@ -183,6 +183,15 @@ public class GenerateurBulletin {
         p.setStyle(Paint.Style.STROKE);
         p.setColor(ColorBlack);
         p.setStrokeWidth(1.15f);
+        return p;
+    }
+
+    static public Paint PinceauLine2()
+    {
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(ColorBlack);
+        p.setStrokeWidth(1.10f);
         return p;
     }
 
@@ -320,11 +329,11 @@ public class GenerateurBulletin {
             pdf.finishPage(page);
         }
         page = pdf.startPage(pagecount);
+        pagecount++;
         canvas = page.getCanvas();
         offset = 0;
         footerheight = 0;
         printFooter();
-        pagecount++;
     }
 
 
@@ -537,11 +546,12 @@ public class GenerateurBulletin {
             p.getTextBounds(name, 0, name.length(), textRect);
             float tauxReussiteFloat = eleve.calculTauxReussite(c, trimestre);
             String tauxReussite = String.format("%.2f", tauxReussiteFloat) + "%";
-            Rect black_rect = new Rect(0, offset, canvas.getWidth(), offset + textRect.height() + RectPadding);
 
-            if(!hasEnoughSpace(black_rect.height())) {
+            if(!hasEnoughSpace(textRect.height() + RectPadding)) {
                 startNewPage();
             }
+
+            Rect black_rect = new Rect(0, offset, canvas.getWidth(), offset + textRect.height() + RectPadding);
 
             // on dessine le rectanle
             canvas.drawRect(black_rect, PinceauRect1());
@@ -598,6 +608,9 @@ public class GenerateurBulletin {
             canvas.drawText(name, IndentCompetence2, offset, p);
             //  et le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
+            // avant de souligner le tout
+            canvas.drawLine(IndentCompetence2, offset + p.getFontMetrics().bottom, canvas.getWidth(), offset + p.getFontMetrics().bottom, PinceauLine2());
+
 
             printProgres(c, taux_reussite, p, offset - IndicateurProgresSize / 2  - p.getFontMetricsInt().bottom);
 
