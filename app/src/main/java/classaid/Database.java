@@ -560,7 +560,8 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Devoir.SelectClause +
                 " FROM Devoir " +
-                " WHERE Competence_id = " + comp.id(), null);
+                " WHERE Competence_id = " + comp.id() +
+                " ORDER BY Devoir_date", null);
 
         List<Devoir> list = new ArrayList<Devoir>();
         if(!c.moveToFirst())
