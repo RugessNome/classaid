@@ -424,6 +424,7 @@ public class GenerateurBulletin {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         final String ecole = pref.getString("pref_nom_ecole", "");
+        final String siteweb = pref.getString("pref_siteweb_ecole", "");
         final String classe = "Classe de " + pref.getString("pref_nom_classe", "");
         final int annee = Integer.parseInt(pref.getString("pref_annee_scolaire", "-1"));
         final String annee_scol = "Année scolaire " + annee  + "-" + (annee+1);
@@ -453,6 +454,12 @@ public class GenerateurBulletin {
         painter.getTextBounds(ecole, 0, ecole.length(), rect);
         canvas.drawText(ecole, leftmargin, offset + rect.height() / 2, painter);
         offset += rect.height() + Interligne;
+
+        if(!siteweb.isEmpty()) {
+            painter.getTextBounds(siteweb, 0, siteweb.length(), rect);
+            canvas.drawText(siteweb, leftmargin, offset + rect.height() / 2, painter);
+            offset += rect.height() + Interligne;
+        }
 
         painter.getTextBounds(classe, 0, classe.length(), rect);
         canvas.drawText(classe, leftmargin, offset + rect.height() / 2, painter);

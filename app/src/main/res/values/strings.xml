@@ -18,6 +18,9 @@
     <string name="pref_nom_ecole_titre">School name</string>
     <string name="pref_nom_ecole_description">This name will be used for generating the report cards</string>
 
+    <string name="pref_siteweb_ecole_titre">Site web de l\'école</string>
+    <string name="pref_siteweb_ecole_description">Adresse du site web de l\'école affichée sur le bulletin</string>
+
     <string name="pref_nom_classe_titre">Class name</string>
     <string name="pref_nom_classe_description">This name will be used for generating the report cards</string>
 
