@@ -28,6 +28,7 @@ import classaid.database.Competence;
 import classaid.database.Devoir;
 import classaid.database.Eleve;
 import classaid.database.Note;
+import classaid.database.Trimestre;
 import classaid.database.TypeNotation;
 
 /**
@@ -96,6 +97,10 @@ public class Devoirs_Competences_Activity extends Activity {
 
                 TextView description = (TextView) convertView.findViewById(R.id.item_description);
 
+                ImageView trimestre1_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre1);
+                ImageView trimestre2_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre2);
+                ImageView trimestre3_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre3);
+
                 int subcomp_count = c.getSousCompetences().size();
                 int devoir_count = c.getDevoirs().size();
                 String des = "";
@@ -110,6 +115,11 @@ public class Devoirs_Competences_Activity extends Activity {
                     des += devoir_count + " devoir(s)";
                 }
                 description.setText(des);
+
+                trimestre1_icon.setVisibility(c.estNotee(1) ? View.VISIBLE : View.INVISIBLE);
+                trimestre2_icon.setVisibility(c.estNotee(2) ? View.VISIBLE : View.INVISIBLE);
+                trimestre3_icon.setVisibility(c.estNotee(3) ? View.VISIBLE : View.INVISIBLE);
+
 
             }
             else
@@ -139,6 +149,21 @@ public class Devoirs_Competences_Activity extends Activity {
                     des += " - " + com;
                 }
                 description.setText(des);
+
+                ImageView trimestre1_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre1);
+                ImageView trimestre2_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre2);
+                ImageView trimestre3_icon = (ImageView) convertView.findViewById(R.id.icon_trimestre3);
+                Trimestre trimestre = d.getTrimestre();
+                if(trimestre == null) {
+                    trimestre1_icon.setVisibility(View.INVISIBLE);
+                    trimestre2_icon.setVisibility(View.INVISIBLE);
+                    trimestre3_icon.setVisibility(View.INVISIBLE);
+                } else {
+                    trimestre1_icon.setVisibility(trimestre.id() == 1 ? View.VISIBLE : View.INVISIBLE);
+                    trimestre2_icon.setVisibility(trimestre.id() == 2 ? View.VISIBLE : View.INVISIBLE);
+                    trimestre3_icon.setVisibility(trimestre.id() == 3 ? View.VISIBLE : View.INVISIBLE);
+                }
+
             }
 
             return convertView;

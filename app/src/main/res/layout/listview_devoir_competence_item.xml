@@ -54,4 +54,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/icon_trimestre1"
+        android:id="@+id/icon_trimestre1"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="2dp" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/icon_trimestre2"
+        android:id="@+id/icon_trimestre2"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="2dp" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/icon_trimestre3"
+        android:id="@+id/icon_trimestre3"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="2dp" />
 </LinearLayout>
