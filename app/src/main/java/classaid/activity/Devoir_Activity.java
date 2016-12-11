@@ -268,9 +268,9 @@ public class Devoir_Activity extends Activity {
      * Sauvegarde dans la base de données les informations rentrées
      */
     @Override
-    protected void onStop()
+    protected void onPause()
     {
-        super.onStop();
+        super.onPause();
 
         EditText commentaire = (EditText) findViewById(R.id.commentaire_textedit);
         devoir.setCommentaire(commentaire.getText().toString());
