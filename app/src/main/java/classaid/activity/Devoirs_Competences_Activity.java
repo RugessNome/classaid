@@ -264,6 +264,11 @@ public class Devoirs_Competences_Activity extends Activity {
                 showGetCompetenceNameDialog("Nouvelle Compétence", null);
             }
         });
+        if(competenceParent != null) {
+            if(competenceParent.depth() == 3)  {
+                creer_competence.setEnabled(false);
+            }
+        }
 
         Button creer_devoir = (Button) findViewById(R.id.bouton_creer_devoir);
         if(competenceParent == null) {
