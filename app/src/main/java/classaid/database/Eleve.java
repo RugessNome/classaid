@@ -1,11 +1,19 @@
 package classaid.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 
 /**
  * Created by Vincent on 12/11/2016.
@@ -250,6 +258,28 @@ public class Eleve extends DatabaseEntity {
     public String getPhoto()
     {
         return this.photo;
+    }
+
+    /**
+     * Renvoie la photo de l'élève sous la forme d'une image Bitmap.
+     * <p>
+     * Renvoie null si aucune photo n'a été fournie ou si l photo n'a pas pu être trouvée/chargée.
+     * </p>
+     * @param con
+     * @return
+     */
+    public Bitmap getBitmapPhoto(Context con)
+    {
+        try {
+            File f = new File(getPhoto());
+            if(!f.exists()) {
+                return null;
+            }
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     /**

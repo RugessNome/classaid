@@ -5,31 +5,48 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="48dip"
-        android:layout_height="@android:dimen/app_icon_size"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:src="@android:drawable/ic_menu_my_calendar"
         android:id="@+id/photo"
-        android:layout_weight="1" />
+        android:layout_weight="0"
+        android:layout_width="64dp"
+        android:layout_height="64dp" />
+
+    <Space
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_width="16dip" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="0">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:text="Prenom Nom"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:text="Naissance - Sexe"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/description"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
     </LinearLayout>
 </LinearLayout>

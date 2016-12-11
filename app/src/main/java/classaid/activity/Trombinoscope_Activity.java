@@ -1,10 +1,18 @@
 package classaid.activity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +43,12 @@ public class Trombinoscope_Activity extends Activity {
     class MyAdaptater extends BaseAdapter {
 
         public List<Eleve> eleves;
+        public Context context;
 
-        public MyAdaptater(List<Eleve> elvs)
+        public MyAdaptater(List<Eleve> elvs, Context con)
         {
             eleves = elvs;
+            context = con;
         }
 
         @Override
@@ -69,8 +80,19 @@ public class Trombinoscope_Activity extends Activity {
             TextView description = (TextView) convertView.findViewById(R.id.description);
             description.setText(e.getDateNaissance().toString() + " - " + (e.getSexe() == 0 ? "M" : "F"));
 
+            ImageView photo = (ImageView) convertView.findViewById(R.id.photo);
+            Bitmap bitmap = e.getBitmapPhoto(context);
+            if(bitmap == null) {
+                photo.setImageResource(android.R.drawable.ic_menu_my_calendar);
+            } else {
+                photo.setImageBitmap(bitmap);
+            }
+
+
             return convertView;
         }
+
+
     };
 
 
@@ -80,7 +102,7 @@ public class Trombinoscope_Activity extends Activity {
     public void updateListeEleves()
     {
         ListView list = (ListView) findViewById(R.id.listview_eleves);
-        this.listAdaptater = new MyAdaptater(MainActivity.ClassaidDatabase.getEleves());
+        this.listAdaptater = new MyAdaptater(MainActivity.ClassaidDatabase.getEleves(), this.getApplicationContext());
         list.setAdapter(this.listAdaptater);
     }
 

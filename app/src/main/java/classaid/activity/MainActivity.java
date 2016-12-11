@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
         if(bob == null) {
             bob = MainActivity.ClassaidDatabase.addEleve("Eponge", "Bob", java.sql.Date.valueOf("2016-12-01"), 0);
         }
-        bob.setPhoto("bob_pohot.png");
-        System.out.println("Photo Bob : " + bob.getPhoto());
 
         // test de la base de données calendrier
         classaid.calendrier.Database.test(this.getApplicationContext());
