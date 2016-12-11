@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import classaid.activity.MainActivity;
+import classaid.activity.R;
 import classaid.database.Competence;
 import classaid.database.Eleve;
 import classaid.database.Trimestre;
@@ -60,6 +62,12 @@ public class GenerateurBulletin {
      * Marge à droite pour le texte du taux de réussite (en pixel)
      */
     final static public int TauxReussiteMargin = 100;
+
+    /**
+     * Marge à droite pour l'icone indiquant le progrès sur la compétence
+     */
+    final static public int IndicateurProgresMargin = 30;
+    final static public int IndicateurProgresSize = 16;
 
     /**
      * L'interligne en pixel
@@ -520,7 +528,8 @@ public class GenerateurBulletin {
             Paint p = PinceauCompetence0();
             Rect textRect = new Rect();
             p.getTextBounds(name, 0, name.length(), textRect);
-            String tauxReussite = String.format("%.2f", eleve.calculTauxReussite(c, trimestre)) + "%";
+            float tauxReussiteFloat = eleve.calculTauxReussite(c, trimestre);
+            String tauxReussite = String.format("%.2f", tauxReussiteFloat) + "%";
             Rect black_rect = new Rect(0, offset, canvas.getWidth(), offset + textRect.height() + RectPadding);
 
             if(!hasEnoughSpace(black_rect.height())) {
@@ -533,6 +542,8 @@ public class GenerateurBulletin {
             canvas.drawText(name, RectLeftPadding, offset + black_rect.height() / 2 + p.getFontMetricsInt().bottom , p);
             //  et enfin le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset + black_rect.height() / 2 + p.getFontMetricsInt().bottom, p);
+
+            printProgres(c, tauxReussiteFloat, p, offset + black_rect.height() / 2 - IndicateurProgresSize / 2);
 
             // on avance dans la page
             offset += black_rect.height() + BottomMarginCompetence0;
@@ -558,6 +569,8 @@ public class GenerateurBulletin {
             // avant de souligner le tout
             canvas.drawLine(IndentCompetence1, offset + p.getFontMetrics().bottom, canvas.getWidth(), offset + p.getFontMetrics().bottom, PinceauLine1());
 
+            printProgres(c, taux_reussite, p, offset - IndicateurProgresSize / 2  - p.getFontMetricsInt().bottom);
+
             // on avance dans la page
             offset += textRect.height() + BottomMarginCompetence1;
         }
@@ -578,6 +591,8 @@ public class GenerateurBulletin {
             canvas.drawText(name, IndentCompetence2, offset, p);
             //  et le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
+
+            printProgres(c, taux_reussite, p, offset - IndicateurProgresSize / 2  - p.getFontMetricsInt().bottom);
 
             // on avance dans la page
             offset += textRect.height() + BottomMarginCompetence2;
@@ -600,14 +615,47 @@ public class GenerateurBulletin {
             //  et le taux de réussite
             canvas.drawText(tauxReussite, canvas.getWidth() - TauxReussiteMargin, offset, p);
 
+            printProgres(c, taux_reussite, p, offset - IndicateurProgresSize / 2 - p.getFontMetricsInt().bottom);
+
             // on avance dans la page
             offset += textRect.height() + BottomMarginCompetence3;
         }
+
+
 
         // enfin, on imprime les sous-compétences
         for(Competence sc : eleve.getSousCompetencesNotees(c, trimestre)) {
             printCompetence(sc);
         }
+    }
+
+    /**
+     * Imprime le progrès par rapport au trimestre précédent.
+     * @param c La compétence
+     * @param tauxReussiteActuel le taux de réussite pour ce trimestre
+     * @param painter le pinceau a utiliser
+     * @param y la coordonnée ou dessiner
+     */
+    private void printProgres(Competence c, float tauxReussiteActuel, Paint painter, int y)
+    {
+        if(trimestre.id() == 1)
+        {
+            return;
+        }
+
+        float ancien_taux_reussite = -1.0f;
+        try {
+            ancien_taux_reussite = eleve.calculTauxReussite(c, MainActivity.ClassaidDatabase.getTrimestre(trimestre.id() - 1));
+        } catch (RuntimeException e) {
+            // le calcul du taux de réussite a échouer,
+            // ca veut dire que la compétence n'était pas noté au trimestre précédent
+            return;
+        }
+
+        int resid = (ancien_taux_reussite == tauxReussiteActuel ? R.drawable.icon_equals :
+                (ancien_taux_reussite > tauxReussiteActuel ? R.drawable.ic_arrow_bottomright : R.drawable.ic_arrow_topright));
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resid);
+        canvas.drawBitmap(bitmap, null, new Rect(canvas.getWidth() - IndicateurProgresMargin, y, canvas.getWidth() - IndicateurProgresMargin + IndicateurProgresSize, y + IndicateurProgresSize), painter);
     }
 
 

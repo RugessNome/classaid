@@ -702,7 +702,7 @@ public class Database {
         Cursor c = this.rawQuery("SELECT " + Note.SelectClause +
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
-                " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
+                " JOIN Trimestre ON Devoir_date BETWEEN Trimestre_dateDebut AND Trimestre_dateFin " +
                 " WHERE Note.Eleve_id = " + e.id() + " AND Trimestre_id = " + trimestre, null);
 
         List<Note> list = new ArrayList<Note>();
@@ -738,7 +738,7 @@ public class Database {
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
                 " JOIN Competence ON Competence.Competence_id = Devoir.Competence_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
-                " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
+                " JOIN Trimestre ON Devoir_date BETWEEN Trimestre_dateDebut AND Trimestre_dateFin " +
                 " WHERE Note.Eleve_id = " + e.id() + " AND Trimestre_id = " + trimestre +
                 " AND Competence.Competence_id = " + comp.id() , null);
 
@@ -774,7 +774,7 @@ public class Database {
                 " FROM Note JOIN Devoir ON Note.Devoir_id = Devoir.Devoir_id " +
                 " JOIN Competence ON Competence.Competence_id = Devoir.Competence_id " +
                 " JOIN TypeNotation ON Devoir.TypeNotation_id = TypeNotation.TypeNotation_id " +
-                " JOIN Trimestre ON date(Devoir_date) BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin) " +
+                " JOIN Trimestre ON Devoir_date BETWEEN Trimestre_dateDebut AND Trimestre_dateFin " +
                 " WHERE Note.Eleve_id = " + e.id() +
                 " AND Competence.Competence_id = " + comp.id() , null);
 
@@ -873,7 +873,7 @@ public class Database {
     {
         Cursor c = this.rawQuery("SELECT " + Trimestre.SelectClause +
                 " FROM Trimestre " +
-                " WHERE date(" + d.getTime() + ") BETWEEN date(Trimestre_dateDebut) AND date(Trimestre_dateFin)", null);
+                " WHERE " + d.getTime() + " BETWEEN Trimestre_dateDebut AND Trimestre_dateFin", null);
 
         if(!c.moveToFirst())
         {

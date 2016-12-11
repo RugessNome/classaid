@@ -423,7 +423,7 @@ public class Eleve extends DatabaseEntity {
             throw new IllegalArgumentException("Eleve.calculTauxReussite() ne peut travailler que sur une compétence notée");
         }
 
-        List<Note> notes = t == null ? c.getNotes(this) : c.getNotes(this, t.id());
+        List<Note> notes = (t == null ? c.getNotes(this) : c.getNotes(this, t.id()));
         if(notes.isEmpty()) {
             List<Competence> list = getSousCompetencesNotees(c, t);
             float total = 0.f;
